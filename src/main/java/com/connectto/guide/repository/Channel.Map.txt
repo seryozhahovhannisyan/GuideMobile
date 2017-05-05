@@ -1,0 +1,422 @@
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="nsChannel">
+
+    <cacheModel id="cmChannel" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="fileSize" value="1000"/>
+    </cacheModel>
+
+    <!--
+    private int id;
+    private String channel_number;
+    private String channel_name;
+    private String channel_dsc;//
+    private String dvr_depth;//
+    private String recording;//
+    private String timeshift;//
+    private String channel_logo;//
+    private String channel_category;//
+    private String multicast_url;//
+    private String nvr_view_url;//
+    private String unicast_url;//
+    private String timezone;//-08
+    -->
+
+    <resultMap id="rmChannelWithSchedule" class="Channel">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="channel_number" column="channel_number"/>
+        <result property="channel_name" column="channel_name"/>
+        <result property="channel_dsc" column="channel_dsc"/>
+        <result property="dvr_depth" column="dvr_depth"/>
+        <result property="recording" column="recording"/>
+        <result property="timeshift" column="timeshift"/>
+        <result property="channel_logo" column="channel_logo"/>
+        <result property="channel_category" column="channel_category"/>
+        <result property="multicast_url" column="multicast_url"/>
+        <result property="nvr_view_url" column="nvr_view_url"/>
+        <result property="unicast_url" column="unicast_url"/>
+        <result property="xml_channel_id" column="xml_channel_id"/>
+        <result property="favoriteBlock" column="fb_id" select="nsFavoriteBlock.getByIdWithoutPSW"/>
+        <result property="clickCount" column="clickCount"/>
+        <result property="iptvRatingVal" column="rating_val" />
+
+        <result property="timezone" column="timezone" />
+        <result property="channelTimezone" column="channel_timezone" select="nsIPTVChannelCountryTimezone.getById"/>
+        <result property="countryTimezone" column="timezoneId" select="nsIPTVChannelCountryTimezone.getById"/>
+
+        <result property="default_language_id" column="default_language_id"/>
+
+    </resultMap>
+
+    <resultMap id="rmChannel" class="Channel">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="channel_number" column="channel_number"/>
+        <result property="channel_name" column="channel_name"/>
+        <result property="channel_dsc" column="channel_dsc"/>
+        <result property="dvr_depth" column="dvr_depth"/>
+        <result property="recording" column="recording"/>
+        <result property="timeshift" column="timeshift"/>
+        <result property="channel_logo" column="channel_logo"/>
+        <result property="channel_category" column="channel_category"/>
+        <result property="multicast_url" column="multicast_url"/>
+        <result property="nvr_view_url" column="nvr_view_url"/>
+        <result property="unicast_url" column="unicast_url"/>
+        <result property="xml_channel_id" column="xml_channel_id"/>
+        <result property="favoriteBlock" column="fb_id" select="nsFavoriteBlock.getByIdWithoutPSW"/>
+        <result property="clickCount" column="clickCount"/>
+        <result property="iptvRatingVal" column="rating_val" />
+
+        <result property="default_language_id" column="default_language_id"/>
+
+    </resultMap>
+
+    <resultMap id="rmChannelMobile" class="Channel">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="channel_number" column="channel_number"/>
+        <result property="channel_name" column="channel_name"/>
+        <result property="channel_dsc" column="channel_dsc"/>
+        <result property="dvr_depth" column="dvr_depth"/>
+        <result property="recording" column="recording"/>
+        <result property="timeshift" column="timeshift"/>
+        <result property="channel_logo" column="channel_logo"/>
+        <result property="channel_category" column="channel_category"/>
+        <result property="multicast_url" column="multicast_url"/>
+        <result property="nvr_view_url" column="nvr_view_url"/>
+        <result property="unicast_url" column="unicast_url"/>
+        <result property="xml_channel_id" column="xml_channel_id"/>
+        <result property="favoriteBlock" column="fb_id" select="nsFavoriteBlock.getByIdWithoutPSW"/>
+        <result property="clickCount" column="clickCount"/>
+        <result property="iptvRatingVal" column="rating_val" />
+        <result property="channelTimezone" column="channel_timezone" select="nsIPTVChannelCountryTimezone.getById"/>
+        <result property="countryTimezone" column="timezoneId" select="nsIPTVChannelCountryTimezone.getById"/>
+        <result property="default_language_id" column="default_language_id"/>
+
+    </resultMap>
+    <!--
+    private int id;
+    private String channel_number;
+    private String channel_name;
+    private String channel_dsc;//
+    private String dvr_depth;//
+    private String recording;//
+    private String timeshift;//
+    private String channel_logo;//
+    private String channel_category;//
+    private String multicast_url;//
+    private String nvr_view_url;//
+    private String unicast_url;//
+    -->
+    <resultMap id="rmChannelDto" class="ChannelDto">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="channel_number" column="channel_number"/>
+        <result property="channel_name" column="channel_name"/>
+        <result property="channel_dsc" column="channel_dsc"/>
+        <result property="dvr_depth" column="dvr_depth"/>
+        <result property="recording" column="recording"/>
+        <result property="timeshift" column="timeshift"/>
+        <result property="channel_logo" column="channel_logo"/>
+        <result property="channel_category" column="channel_category"/>
+        <result property="multicast_url" column="multicast_url"/>
+        <result property="nvr_view_url" column="nvr_view_url"/>
+        <result property="unicast_url" column="unicast_url"/>
+    </resultMap>
+
+
+    <resultMap id="rmChannelCategoryModel" class="ChannelCategoryModel">
+        <result property="categoryId" column="category_id"/>
+        <result property="name" column="category_name"/>
+        <result property="dsc" column="category_dsc"/>
+        <result property="partitionId" column="partition_id"/>
+    </resultMap>
+
+    <resultMap id="rmIPTVLanguage" class="IPTVLanguage">
+        <result property="languageId" column="language_id"/>
+        <result property="language" column="language"/>
+        <result property="partitionId" column="partition_id"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="getIdesByParams" cacheModel="cmChannel" resultClass="int" parameterClass="map">
+         SELECT channel_id FROM core_xmltv_channel WHERE id IN
+	          (SELECT xml_channel_id FROM iptv_channels
+	                                 WHERE deleted = #deleted# AND (
+	                                       partition_id = #partition_id# OR channel_id IN (SELECT channel_id FROM iptv_accepted_channels WHERE partition_id = #partition_id#)
+	                                       )
+	          )
+
+    </select>
+
+    <select id="getChannelIdByXMLTVChannelId" cacheModel="cmChannel" resultClass="int" parameterClass="int">
+         SELECT channel_id FROM core_xmltv_channel WHERE id = #xmlTvChannelId#
+    </select>
+
+    <!--
+    iptv_channels.xml_channel_id = core_xmltv_channel.id
+    -->
+
+    <!--
+    private int id;
+    private String channel_number;
+    private String channel_name;
+    private String channel_dsc;//
+    private String dvr_depth;//
+    private String recording;//
+    private String timeshift;//
+    private String channel_logo;//
+    private String channel_category;//
+    private String multicast_url;//
+    private String nvr_view_url;//
+    private String unicast_url;//
+    private String timezone;//-08
+    -->
+    <select id="getByParamsWithSchedule" cacheModel="cmChannel" resultMap="rmChannelWithSchedule" parameterClass="map">
+
+        SELECT c.channel_id id,
+        c.channel_number,
+        c.channel_name,
+        c.channel_dsc,
+        c.dvr_depth,
+        c.recording ,
+        c.timeshift,
+        c.channel_logo,
+        (SELECT category_name FROM iptv_channel_categories WHERE category_id = channel_category) channel_category,
+        c.multicast_url,
+        c.nvr_view_url,
+        c.unicast_url,
+        ir.rating rating_val,
+
+        (SELECT timezone FROM iptv_channel_country_timezone WHERE id = ( SELECT timezone_id FROM iptv_servers WHERE server_id = nvr_server_id ) ) timezone,
+        (SELECT id FROM iptv_channel_country_timezone WHERE id = c.timezone) channel_timezone,
+        (SELECT id FROM iptv_channel_country_timezone WHERE id = ( SELECT timezone_id FROM iptv_servers WHERE server_id = nvr_server_id ) ) timezoneId,
+
+        c.xml_channel_id,
+        ifb.id fb_id,
+        count(ccc.id) clickCount,
+        c.default_language_id default_language_id
+        FROM iptv_channels c
+        LEFT JOIN iptv_favorite_block ifb ON ifb.channel_id = c.channel_id AND ifb.partition_id = #partition_id#
+        LEFT JOIN core_channel_click ccc ON ccc.channel_id = c.channel_id
+        LEFT JOIN iptv_ratings ir ON ir.rating_id = c.default_rating_id
+        WHERE c.deleted = #deleted#
+        and (c.partition_id = #partition_id# OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac  WHERE ac.partition_id = #partition_id#) )
+        <isNotNull property="existsChannelIdes">
+            and c.channel_id not in
+            <iterate property="existsChannelIdes" open="(" close=")" conjunction=",">
+                #existsChannelIdes[]#
+            </iterate>
+        </isNotNull>
+        <isNotNull property="channelUpdateDate">
+            and c.updated &gt; #channelUpdateDate#
+        </isNotNull>
+
+        GROUP BY c.channel_id
+        ORDER BY channel_number
+        <isNotNull property="limit">
+            LIMIT #limit# OFFSET #offset#
+        </isNotNull>
+
+    </select>
+
+    <select id="getByParams" cacheModel="cmChannel" resultMap="rmChannel" parameterClass="map">
+
+        SELECT c.channel_id id,
+        c.channel_number,
+        c.channel_name,
+        c.channel_dsc,
+        c.delays, dvr_depth,
+        c.recording ,
+        c.timeshift,
+        c.channel_logo,
+        (SELECT category_name FROM iptv_channel_categories WHERE category_id = channel_category) channel_category,
+        c.multicast_url,
+        c.nvr_view_url,
+        c.unicast_url,
+        c.xml_channel_id,
+        ifb.id fb_id,
+        ir.rating rating_val,
+        count(ccc.id) clickCount,
+        c.default_language_id default_language_id
+        FROM iptv_channels c
+        LEFT JOIN iptv_favorite_block ifb ON ifb.channel_id = c.channel_id AND ifb.partition_id = #partition_id#
+        LEFT JOIN core_channel_click ccc ON ccc.channel_id = c.channel_id
+        LEFT JOIN iptv_ratings ir ON ir.rating_id = c.default_rating_id
+        WHERE c.deleted = #deleted#
+        and (c.partition_id = #partition_id# OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac WHERE ac.partition_id = #partition_id#) )
+        and c.updated  &gt; #channelUpdateDate#
+
+        GROUP BY c.channel_id
+        ORDER BY channel_number
+        <isNotNull property="limit">
+            LIMIT #limit# OFFSET #offset#
+        </isNotNull>
+
+    </select>
+
+    <select id="getByChannelId" cacheModel="cmChannel" resultMap="rmChannel" parameterClass="map">
+
+        SELECT c.channel_id id,
+        c.channel_number,
+        c.channel_name,
+        c.channel_dsc,
+        c.delays, dvr_depth,
+        c.recording ,
+        c.timeshift,
+        c.channel_logo,
+        (SELECT category_name FROM iptv_channel_categories WHERE category_id = channel_category) channel_category,
+        c.multicast_url,
+        c.nvr_view_url,
+        c.unicast_url,
+        c.xml_channel_id,
+        ifb.id fb_id,
+        ir.rating rating_val,
+        count(ccc.id) clickCount,
+        c.default_language_id default_language_id
+
+        FROM iptv_channels c
+        LEFT JOIN iptv_favorite_block ifb ON ifb.channel_id = c.channel_id AND ifb.partition_id = #partition_id#
+        LEFT JOIN core_channel_click ccc ON ccc.channel_id = c.channel_id
+        LEFT JOIN iptv_ratings ir ON ir.rating_id = c.default_rating_id
+        WHERE c.deleted = #deleted#
+        and (c.partition_id = #partition_id# OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac WHERE ac.partition_id = #partition_id#) )
+        and  c.channel_id = #channelId#
+
+    </select>
+
+    <select id="getByChannelIdForMobile" cacheModel="cmChannel" resultMap="rmChannelMobile" parameterClass="map">
+
+        SELECT c.channel_id id,
+        c.channel_number,
+        c.channel_name,
+        c.channel_dsc,
+        c.delays, dvr_depth,
+        c.recording ,
+        c.timeshift,
+        Concat(#channelLogoPath#, c.channel_logo) channel_logo ,
+        (SELECT category_name FROM iptv_channel_categories WHERE category_id = channel_category) channel_category,
+        c.multicast_url,
+        c.nvr_view_url,
+        c.unicast_url,
+        c.xml_channel_id,
+        ifb.id fb_id,
+        ir.rating rating_val,
+        count(ccc.id) clickCount,
+        c.default_language_id default_language_id,
+
+        (SELECT id FROM iptv_channel_country_timezone WHERE id = c.timezone) channel_timezone,
+        (SELECT id FROM iptv_channel_country_timezone WHERE id = ( SELECT timezone_id FROM iptv_servers WHERE server_id = nvr_server_id ) ) timezoneId
+
+        FROM iptv_channels c
+        LEFT JOIN iptv_favorite_block ifb ON ifb.channel_id = c.channel_id AND ifb.partition_id = #partition_id# AND ifb.user_id = #userId#
+        LEFT JOIN core_channel_click ccc ON ccc.channel_id = c.channel_id
+        LEFT JOIN iptv_ratings ir ON ir.rating_id = c.default_rating_id
+        WHERE c.deleted = #deleted#
+        and (c.partition_id = #partition_id# OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac WHERE ac.partition_id = #partition_id#) )
+        and  c.channel_id = #channelId#
+
+    </select>
+
+
+
+    <select id="getDtosByParams" cacheModel="cmChannel" resultMap="rmChannelDto" parameterClass="map">
+
+        SELECT c.channel_id id,
+        c.channel_number,
+        c.channel_name,
+        c.channel_dsc,
+        c.dvr_depth,
+        c.recording ,
+        c.timeshift,
+        c.channel_logo,
+        (SELECT category_name FROM iptv_channel_categories WHERE category_id = channel_category) channel_category,
+        c.multicast_url,
+        c.nvr_view_url,
+        c.unicast_url
+        FROM iptv_channels c
+        WHERE c.deleted = #deleted#
+        and (c.partition_id = #partition_id# OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac WHERE ac.partition_id = #partition_id#) )
+
+        GROUP BY c.channel_id
+        <isNotNull property="orderBy">
+            <isEqual property="orderBy"
+                     compareValue="category">
+                ORDER BY channel_category
+            </isEqual>
+            <isEqual property="orderBy"
+                     compareValue="name">
+                ORDER BY channel_name
+            </isEqual>
+
+
+        </isNotNull>
+        <isNull property="orderBy">
+            ORDER BY channel_number
+        </isNull>
+
+        <isNotNull property="limit">
+            LIMIT #limit# OFFSET #offset#
+        </isNotNull>
+
+    </select>
+
+    <select id="countByParams" cacheModel="cmChannel" resultClass="int" parameterClass="map">
+        select count(channel_id)
+        FROM  iptv_channels
+        WHERE deleted = #deleted#
+              AND ( partition_id =  #partition_id# OR channel_id IN ( SELECT channel_id FROM  iptv_accepted_channels WHERE partition_id =  #partition_id#) )
+    </select>
+
+    <select id="getNewCountByParams" cacheModel="cmChannel" resultClass="int" parameterClass="map">
+        select count(c.channel_id)
+        FROM iptv_channels c
+        WHERE c.deleted = #deleted#
+        and (SELECT id FROM iptv_channel_country_timezone WHERE id = ( SELECT timezone_id FROM iptv_servers WHERE server_id = nvr_server_id ) ) IS NOT NULL
+        and (c.partition_id = #partition_id# OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac  WHERE ac.partition_id = #partition_id#) )
+        <isNotNull property="existsChannelIdes">
+            and c.channel_id not in
+            <iterate property="existsChannelIdes" open="(" close=")" conjunction=",">
+                #existsChannelIdes[]#
+            </iterate>
+        </isNotNull>
+        <isNotNull property="channelUpdateDate">
+          and c.updated  &gt; #channelUpdateDate#
+        </isNotNull>
+    </select>
+
+    <select id="getNewIdesByParams" cacheModel="cmChannel" resultClass="int" parameterClass="map">
+        select c.channel_id
+        FROM iptv_channels c
+        WHERE c.deleted = #deleted#
+        and (SELECT id FROM iptv_channel_country_timezone WHERE id = ( SELECT timezone_id FROM iptv_servers WHERE server_id = nvr_server_id ) ) IS NOT NULL
+        and (c.partition_id = #partition_id# OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac  WHERE ac.partition_id = #partition_id#) )
+        <isNotNull property="existsChannelIdes">
+            and c.channel_id not in
+            <iterate property="existsChannelIdes" open="(" close=")" conjunction=",">
+                #existsChannelIdes[]#
+            </iterate>
+        </isNotNull>
+        <isNotNull property="channelUpdateDate">
+            and c.updated  &gt; #channelUpdateDate#
+        </isNotNull>
+        order by c.channel_number
+
+    </select>
+
+    <select id="getIptvChannelCategories" cacheModel="cmChannel" resultMap="rmChannelCategoryModel" parameterClass="map">
+
+        SELECT * FROM iptv_channel_categories WHERE deleted = 0 AND ( partition_id = 0 OR partition_id = #partitionId# ) ORDER BY 1 DESC
+
+    </select>
+
+    <select id="getIPTVLanguages" cacheModel="cmChannel" resultMap="rmIPTVLanguage" parameterClass="map">
+
+        SELECT * FROM iptv_languages WHERE deleted = 0 AND partition_id = #partitionId# ORDER BY 1 DESC
+
+    </select>
+
+    <select id="isChannelExists" cacheModel="cmUser" resultClass="int" parameterClass="int">
+        select count(channel_id) from  iptv_channels where channel_id = #iptvChannelId#
+    </select>
+
+</sqlMap>

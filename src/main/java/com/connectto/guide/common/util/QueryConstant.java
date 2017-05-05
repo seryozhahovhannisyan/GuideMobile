@@ -1,6 +1,6 @@
 package com.connectto.guide.common.util;
 
-public enum QueryConstants {
+public enum QueryConstant {
 
     EQUAL("= %s"),
 
@@ -24,11 +24,11 @@ public enum QueryConstants {
 
     OFFSET("OFFSET"),
 
-    ASC("ASC"),
+    ASC("ORDER BY %s ASC"),
 
-    DESC("DESC");
+    DESC("ORDER BY %s DESC");
 
-    QueryConstants(final String value) {
+    QueryConstant(final String value) {
         this.value = value;
     }
 

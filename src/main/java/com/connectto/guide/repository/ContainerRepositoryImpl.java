@@ -1,7 +1,8 @@
 package com.connectto.guide.repository;
 
 import com.connectto.guide.common.exception.InternalErrorException;
-import com.connectto.guide.common.util.DataConverter;
+import com.connectto.guide.common.util.QueryConstant;
+import com.connectto.guide.common.util.QueryParam;
 import com.connectto.guide.common.util.QueryUtil;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -25,9 +26,9 @@ public class ContainerRepositoryImpl implements ContainerCustomRepository<Object
     private EntityManager em;
 
     @Override
-    public List<Object> getByParams(String table, Map queryMap, String operator) throws InternalErrorException {
+    public List<Object> getByParams(String fields, String table, List<QueryParam> queryParams, Map tail) throws InternalErrorException {
         try {
-            String queryString = null;//QueryUtil.buildQuery(queryMap, operator);
+            String queryString = QueryUtil.buildQuery(fields, table, queryParams, tail);
             Query query = em.createNativeQuery(queryString);
             return query.getResultList();
         } catch (Exception e) {
@@ -37,11 +38,11 @@ public class ContainerRepositoryImpl implements ContainerCustomRepository<Object
     }
 
     @Override
-    public Long getCountByParams(String table, Map queryMap, String operator) throws InternalErrorException {
+    public Long getCountByParams(String id, String table, List<QueryParam> queryParams) throws InternalErrorException {
         try {
-            String queryString = null;//QueryUtil.buildCountQuery(queryMap, operator);
+            String queryString = QueryUtil.buildCountQuery(id, table, queryParams);
             Query query = em.createNativeQuery(queryString);
-            BigInteger count =  (BigInteger) query.getSingleResult();
+            BigInteger count = (BigInteger) query.getSingleResult();
             return count == null ? 0 : count.longValue();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

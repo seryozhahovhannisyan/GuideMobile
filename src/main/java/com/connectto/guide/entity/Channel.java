@@ -8,8 +8,8 @@ public class Channel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "channel_id")
+    private long channelId;
 
     @Column(name = "channel_number")
     private String number;
@@ -80,13 +80,12 @@ public class Channel {
      *##################################################################################################################
      */
 
-    public long getId() {
-        return id;
+    public long getChannelId() {
+        return channelId;
     }
 
-    public Channel setId(long id) {
-        this.id = id;
-        return this;
+    public void setChannelId(long channelId) {
+        this.channelId = channelId;
     }
 
     public String getNumber() {

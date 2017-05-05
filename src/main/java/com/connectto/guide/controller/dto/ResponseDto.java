@@ -1,36 +1,48 @@
 package com.connectto.guide.controller.dto;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Serozh
- * Date: 05.05.13
- * Time: 19:02
- * To change this template use File | Settings | File Templates.
- */
-@XmlRootElement
 public class ResponseDto implements Serializable {
+
     private ResponseStatus status;
-    private List<String> messages;
-    public void addMessage(String message) {
-        if (messages == null) {
-            messages = new ArrayList<String>();
+
+    private String actionerror;
+    private String actionmessage;
+
+    private Map<String, String> fielderrors;
+
+    private Map<String, Object> response;
+
+    public void addResponse(String key, Object value) {
+        if (response == null || response.size() == 0) {
+            response = new HashMap<String, Object>();
         }
-        messages.add(message);
+        response.put(key, value);
+    }
+
+    public void addFieldError(String name, String error) {
+        if (fielderrors == null || fielderrors.size() == 0) {
+            fielderrors = new HashMap<String, String>();
+        }
+        fielderrors.put(name, error);
     }
 
     public void cleanMessages() {
-        if (messages != null) {
-            messages.clear();
-        }
+
         status = null;
+        actionerror = null;
+        actionmessage = null;
+
+        if (fielderrors != null) {
+            fielderrors.clear();
+        }
+
+        if (response != null) {
+            response.clear();
+        }
     }
-
-
 
     public ResponseStatus getStatus() {
         return status;
@@ -40,19 +52,35 @@ public class ResponseDto implements Serializable {
         this.status = status;
     }
 
-    public List<String> getMessages() {
-        return messages;
+    public String getActionerror() {
+        return actionerror;
     }
 
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
+    public void setActionerror(String actionerror) {
+        this.actionerror = actionerror;
     }
 
-    @Override
-    public String toString() {
-        return "ResponseDto{" +
-                "status=" + status +
-                ", messages=" + messages +
-                '}';
+    public String getActionmessage() {
+        return actionmessage;
+    }
+
+    public void setActionmessage(String actionmessage) {
+        this.actionmessage = actionmessage;
+    }
+
+    public Map<String, String> getFielderrors() {
+        return fielderrors;
+    }
+
+    public void setFielderrors(Map<String, String> fielderrors) {
+        this.fielderrors = fielderrors;
+    }
+
+    public Map<String, Object> getResponse() {
+        return response;
+    }
+
+    public void setResponse(Map<String, Object> response) {
+        this.response = response;
     }
 }

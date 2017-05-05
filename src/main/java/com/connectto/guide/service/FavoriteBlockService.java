@@ -5,7 +5,7 @@ import com.connectto.guide.common.exception.InternalErrorException;
 import com.connectto.guide.common.exception.PermissionDeniedException;
 import com.connectto.guide.entity.FavoriteBlock;
 
-public interface FavoriteBlockManager {
+public interface FavoriteBlockService {
 
     public void favorite(FavoriteBlock favoriteBlock) throws InternalErrorException, DataNotFoundException, PermissionDeniedException;
 

@@ -7,7 +7,7 @@ import com.connectto.guide.entity.XmlTv;
 import java.util.List;
 import java.util.Map;
 
-public interface XmlTvManager {
+public interface XmlTvService {
 
     public XmlTv getById(long id) throws InternalErrorException, DataNotFoundException;
 

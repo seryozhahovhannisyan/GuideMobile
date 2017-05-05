@@ -22,7 +22,7 @@ public class FavoriteBlock {
     private long userId;
 
     @Column(name = "channel_id")
-    private int channelId;
+    private long channelId;
 
     @Column(name = "favorite")
     private Integer favorite;
@@ -73,11 +73,11 @@ public class FavoriteBlock {
         return this;
     }
 
-    public int getChannelId() {
+    public long getChannelId() {
         return channelId;
     }
 
-    public FavoriteBlock setChannelId(int channelId) {
+    public FavoriteBlock setChannelId(long channelId) {
         this.channelId = channelId;
         return this;
     }

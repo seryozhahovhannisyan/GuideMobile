@@ -5,6 +5,7 @@ import com.connectto.guide.common.exception.InternalErrorException;
 import com.connectto.guide.entity.XmlTv;
 import com.connectto.guide.repository.XmlFilesUpdateRepository;
 import com.connectto.guide.repository.XmlTvRepository;
+import com.connectto.guide.service.XmlTvService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,7 @@ import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
-public class XmlTvManagerImpl implements XmlTvManagerImpl {
+public class XmlTvServiceImpl implements XmlTvService {
 
 //    @Autowired
 //    private IChannelCustomRepository channelDao;
