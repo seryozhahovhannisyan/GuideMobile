@@ -1,0 +1,177 @@
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="nsXmlTv">
+
+    <cacheModel id="cmXmlTv" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="fileSize" value="1000"/>
+    </cacheModel>
+
+
+    <resultMap id="rmXmlTvPrimary" class="XmlTv">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="startTime" column="start_time"/>
+        <result property="stopTime" column="stop_time"/>
+        <result property="guideStartTime" column="start_time"/>
+        <result property="guideStopTime" column="stop_time"/>
+        <result property="channel" column="channel"/>
+        <result property="title" column="title"/>
+        <result property="category" column="category"/>
+        <result property="rating" column="rating"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <resultMap id="rmXmlTvPrimaryMobile" class="XmlTv">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="startTime" column="start_time"/>
+        <result property="stopTime" column="stop_time"/>
+        <result property="channel" column="channel"/>
+        <result property="title" column="title"/>
+        <result property="category" column="category"/>
+        <result property="rating" column="rating"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <resultMap id="rmXmlTvAll" class="XmlTv">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="xmlType" column="xml_type"/>
+        <result property="startTime" column="start_time"/>
+        <result property="stopTime" column="stop_time"/>
+        <result property="channel" column="channel"/>
+        <result property="title" column="title"/>
+        <result property="dsc" column="dsc"/>
+        <result property="category" column="category"/>
+        <result property="language" column="language"/>
+        <result property="origLanguage" column="orig_language"/>
+        <result property="episodeNum" column="episode_num"/>
+        <result property="director" column="director"/>
+        <result property="actor" column="actor"/>
+        <result property="writer" column="writer"/>
+        <result property="producer" column="producer"/>
+        <result property="date" column="date"/>
+        <result property="video" column="video"/>
+        <result property="audio" column="audio"/>
+        <result property="rating" column="rating"/>
+        <result property="starRating" column="star_rating"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <select id="getById" cacheModel="cmXmlTv" resultMap="rmXmlTvAll" parameterClass="int">
+        SELECT id, xml_type,start_time,stop_time,
+        ( SELECT id FROM core_xmltv_channel WHERE channel_id = cx.channel )channel,
+        title,dsc,category,language,orig_language,episode_num,director,actor,writer,producer,date,video,audio,rating,star_rating,icon
+        FROM core_xmltv cx
+        WHERE id = #id#
+    </select>
+
+    <select id="getByParams" cacheModel="cmXmlTv" resultMap="rmXmlTvPrimary" parameterClass="map">
+        SELECT id, start_time,stop_time,
+        (
+        SELECT id FROM core_xmltv_channel WHERE channel_id = cx.channel
+        <isNotNull property="file_types">
+            AND
+            file_type IN (
+            <iterate property="file_types" conjunction=",">
+                #file_types[]#
+            </iterate>
+            )
+        </isNotNull>
+        )channel,
+        title,category, rating,icon
+        FROM core_xmltv cx
+        WHERE 1
+        <isNotNull property="channelIdes">
+            AND channel IN (
+                <iterate property="channelIdes" conjunction=",">
+                    #channelIdes[]#
+                </iterate>
+                )
+        </isNotNull>
+        AND start_time BETWEEN #periodStart# AND #periodEnd#
+        <isNotNull property="file_types">
+            AND xml_type IN (
+                <iterate property="file_types" conjunction=",">
+                    #file_types[]#
+                </iterate>
+                )
+        </isNotNull>
+        <isNotNull property="limit">
+            LIMIT #limit# OFFSET #offset#
+        </isNotNull>
+    </select>
+
+    <select id="getByParamsMobile" cacheModel="cmXmlTv" resultMap="rmXmlTvPrimaryMobile" parameterClass="map">
+        SELECT id, start_time,stop_time,
+        (
+        SELECT id FROM core_xmltv_channel WHERE channel_id = cx.channel
+        <isNotNull property="file_types">
+            AND
+            file_type IN (
+            <iterate property="file_types" conjunction=",">
+                #file_types[]#
+            </iterate>
+            )
+        </isNotNull>
+        )channel,
+        title,
+        IF(TRIM(category) = '', NULL, category) category,
+        IF(TRIM(rating) != '', rating, NULL) rating,
+        IF(TRIM(icon) != '',  icon, NULL) icon
+        FROM core_xmltv cx
+        WHERE 1
+        <isNotNull property="channelIdes">
+            AND channel IN (
+                <iterate property="channelIdes" conjunction=",">
+                    #channelIdes[]#
+                </iterate>
+                )
+        </isNotNull>
+        AND start_time BETWEEN #periodStart# AND #periodEnd#
+        <isNotNull property="file_types">
+            AND xml_type IN (
+                <iterate property="file_types" conjunction=",">
+                    #file_types[]#
+                </iterate>
+                )
+        </isNotNull>
+        <isNotNull property="limit">
+            LIMIT #limit# OFFSET #offset#
+        </isNotNull>
+    </select>
+
+
+    <select id="getByParamsOld" cacheModel="cmXmlTv" resultMap="rmXmlTvAll" parameterClass="map">
+        SELECT id, xml_type,start_time,stop_time,
+        (
+        SELECT id FROM core_xmltv_channel WHERE channel_id = cx.channel AND
+        file_type IN (
+        <iterate property="file_types" conjunction=",">
+            #file_types[]#
+        </iterate>
+        )
+        )channel,
+        title,dsc,category,language,orig_language,episode_num,director,actor,writer,producer,date,video,audio,rating,star_rating,icon
+        FROM core_xmltv cx
+        WHERE channel IN (
+        <iterate property="channelIdes" conjunction=",">
+            #channelIdes[]#
+        </iterate>
+        )
+        AND start_time BETWEEN #periodStart# AND #periodEnd#
+        AND xml_type IN (
+        <iterate property="file_types" conjunction=",">
+            #file_types[]#
+        </iterate>
+        )
+        <isNotNull property="limit">
+            LIMIT #limit# OFFSET #offset#
+        </isNotNull>
+    </select>
+
+    <select id="getByParams_test" cacheModel="cmXmlTv" resultMap="rmXmlTvAll" parameterClass="map">
+         SELECT *  FROM `core_xmltv` WHERE id IN (596954,596981,596969,596959)
+    </select>
+
+
+</sqlMap>

@@ -14,6 +14,10 @@ public interface ContainerCustomRepository<T, Long> {
 
     List<T> getByParams(String fields, String table, List<QueryParam> queryParams, Map tail) throws InternalErrorException;
 
+    List<T> getByParams(String query) throws InternalErrorException;
+
     Long getCountByParams(String id, String table, List<QueryParam> queryParams) throws InternalErrorException;
+
+    Long getCountByParams(String query) throws InternalErrorException;
 
 }

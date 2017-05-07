@@ -1,0 +1,21 @@
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="nsXmlFilesUpdate">
+
+    <cacheModel id="cmXmlFilesUpdate" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="fileSize" value="1000"/>
+    </cacheModel>
+
+    <resultMap id="rmXmlFilesUpdate" class="XmlFilesUpdate">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="russian_files" column="russian_files"/>
+        <result property="usa_files" column="usa_files"/>
+    </resultMap>
+
+    <select id="getById" cacheModel="cmXmlFilesUpdate" resultMap="rmXmlFilesUpdate" parameterClass="int">
+        select * from core_xml_files_updates where id=#id#
+    </select>
+
+</sqlMap>

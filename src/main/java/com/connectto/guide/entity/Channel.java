@@ -3,7 +3,7 @@ package com.connectto.guide.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "iptv_channels")
+@Table(name = "v_iptv_channels")
 public class Channel {
 
     @Id

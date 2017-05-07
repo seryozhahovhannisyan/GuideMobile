@@ -64,8 +64,8 @@ public class ChannelMobileAction {
         try {
 
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("partition_id", partitionId);
-            params.put("user_id", userId);
+            params.put("partitionId", partitionId);
+            params.put("userId", userId);
 
             if (StringHelper.isNotBlank(existsChannelIdes)) {
                 List<Long> existsIdes = DataConverter.convertIdesToLong(existsChannelIdes);
@@ -73,7 +73,8 @@ public class ChannelMobileAction {
             }
 
             if (StringHelper.isNotBlank(channelUpdateDate)) {
-                params.put("channelUpdateDate", DataConverter.convertToDate(channelUpdateDate));
+                DataConverter.convertToDate(channelUpdateDate);
+                params.put("channelUpdateDate", channelUpdateDate);
             }
 
             Long newChannelsCount = channelService.getCountByParams(params);
@@ -113,8 +114,8 @@ public class ChannelMobileAction {
         try {
 
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("partition_id", partitionId);
-            params.put("user_id", userId);
+            params.put("partitionId", partitionId);
+            params.put("userId", userId);
             if (StringHelper.isNotBlank(existsChannelIdes)) {
                 List<Long> existsIdes = DataConverter.convertIdesToLong(existsChannelIdes);
                 params.put("existsChannelIdes", existsIdes);
@@ -157,8 +158,8 @@ public class ChannelMobileAction {
         long userId = user.getId();
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("partition_id", partitionId);
-        params.put("user_id", userId);
+        params.put("partitionId", partitionId);
+        params.put("userId", userId);
 
         params.put("channelLogoPath", channelLogoPath);
 

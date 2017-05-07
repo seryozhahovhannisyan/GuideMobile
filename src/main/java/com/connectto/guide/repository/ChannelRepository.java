@@ -14,15 +14,5 @@ import java.util.Map;
 
 
 public interface ChannelRepository extends JpaRepository<FavoriteBlock, Long>, CrudRepository<FavoriteBlock,Long> {
-
-    public Channel getByChannelIdForMobile(Map<String, Object> params) ;
-    public Long getNewCountByParams(Map<String, Object> params) ;
-    public List<Long> getNewIdesByParams(Map<String, Object> params) ;
-
-//    public List<ChannelCategoryModel> getIptvChannelCategories(Map<String, Object> params) ;
-//    public List<IPTVLanguage> getIPTVLanguages(Map<String, Object> params) ;
-
-    public Long getChannelIdByXMLTVChannelId(int xmlTvChannelId) ;
     public Long countByChannelId(Long id);
-
 }

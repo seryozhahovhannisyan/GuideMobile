@@ -1,0 +1,196 @@
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!--todo-->
+<sqlMap namespace="nsFavoriteBlock">
+
+    <cacheModel id="cmFavoriteBlock" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="fileSize" value="1000"/>
+    </cacheModel>
+    <!--
+`id` int( 6 ) NOT NULL AUTO_INCREMENT,
+  `partition_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `channel_id` int(11) DEFAULT NULL,
+  `favorite` int(11) DEFAULT NULL,
+  `favorite_date_time` datetime NOT NULL,
+  `block` int(1) DEFAULT NULL,
+  `block_date_time` datetime NOT NULL,
+    -->
+    <resultMap id="rmFavoriteBlock" class="FavoriteBlock">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="partition_id" column="partition_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="channel_id" column="channel_id"/>
+        <result property="favorite" column="favorite"/>
+        <result property="favorite_date_time" column="favorite_date_time"/>
+        <result property="block" column="block"/>
+        <result property="blockPassword" column="block_password"/>
+        <result property="block_date_time" column="block_date_time"/>
+    </resultMap>
+
+    <resultMap id="rmFavoriteBlockWithoutPSW" class="FavoriteBlock">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="partition_id" column="partition_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="channel_id" column="channel_id"/>
+        <result property="favorite" column="favorite"/>
+        <result property="favorite_date_time" column="favorite_date_time"/>
+        <result property="block" column="block"/>
+        <result property="block_date_time" column="block_date_time"/>
+    </resultMap>
+
+
+    <insert id="add" parameterClass="FavoriteBlock">
+        INSERT INTO `iptv_favorite_block` (
+        `partition_id`,
+        `user_id`,
+        `channel_id`,
+        `favorite`,
+        `favorite_date_time`,
+        `block`,
+        `block_password`,
+        `block_date_time`
+        ) VALUES (
+        #partition_id#,
+        #user_id#,
+        #channel_id#,
+        #favorite#,
+        #favorite_date_time#,
+        #block#,
+        #blockPassword#,
+        #block_date_time#
+        )
+
+        <selectKey keyProperty="id" resultClass="int">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+
+    </insert>
+
+    <select id="getById" cacheModel="cmFavoriteBlock" resultMap="rmFavoriteBlock" parameterClass="int">
+        select * from iptv_favorite_block where id=#id#
+    </select>
+
+    <select id="getByIdWithoutPSW" cacheModel="cmFavoriteBlock" resultMap="rmFavoriteBlockWithoutPSW" parameterClass="int">
+        select * from iptv_favorite_block where id=#id#
+    </select>
+
+
+    <select id="getByParams" cacheModel="cmFavoriteBlock" resultMap="rmFavoriteBlock" parameterClass="map">
+        select * from iptv_favorite_block
+        <dynamic prepend="WHERE"> 1
+            <isNotNull property="id">
+                 AND `id` = #id#
+            </isNotNull>
+            <isNotNull property="partition_id">
+                 AND `partition_id` = #partition_id#
+            </isNotNull>
+            <isNotNull property="user_id">
+                 AND `user_id` = #user_id#
+            </isNotNull>
+            <isNotNull property="channel_id">
+                 AND `channel_id` = #channel_id#
+            </isNotNull>
+
+            <isNotNull property="limit">
+                 LIMIT #limit# OFFSET #offset#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <select id="getNewCountByParams" cacheModel="cmChannel" resultClass="int" parameterClass="map">
+        select count(ifb.channel_id)
+        FROM iptv_favorite_block ifb
+        WHERE  ifb.partition_id = #partition_id# and  ifb.user_id = #userId# and
+        (ifb.favorite_date_time  &gt;= #channelUpdateDate# or ifb.block_date_time  &gt;= #channelUpdateDate#)
+    </select>
+
+    <select id="getNewIdesByParams" cacheModel="cmChannel" resultClass="int" parameterClass="map">
+        select ifb.channel_id
+        FROM iptv_favorite_block ifb
+        WHERE  ifb.partition_id = #partition_id# and  ifb.user_id = #userId# and
+        (ifb.favorite_date_time  &gt;= #channelUpdateDate# or ifb.block_date_time  &gt;= #channelUpdateDate#)
+        <isNotNull property="notin">
+            and ifb.channel_id not in
+            <iterate property="notin" open="(" close=")" conjunction=",">
+                #notin[]#
+            </iterate>
+        </isNotNull>
+    </select>
+
+    <update id="update" parameterClass="FavoriteBlock">
+        UPDATE `iptv_favorite_block`
+        SET `id` = #id#
+        <isNotNull property="partition_id">
+            ,`partition_id` = #partition_id#
+        </isNotNull>
+        <isNotNull property="user_id">
+            ,`user_id` = #user_id#
+        </isNotNull>
+        <isNotNull property="channel_id">
+            ,`channel_id` = #channel_id#
+        </isNotNull>
+        <isNotNull property="favorite">
+            ,`favorite` = #favorite#
+        </isNotNull>
+        <isNotNull property="favorite_date_time">
+            ,`favorite_date_time` = #favorite_date_time#
+        </isNotNull>
+        <isNotNull property="block">
+            ,`block` = #block#
+        </isNotNull>
+        <isNotNull property="blockPassword">
+            , `block_password` = #blockPassword#
+        </isNotNull>
+        <isNotNull property="block_date_time">
+            ,`block_date_time` = #block_date_time#
+        </isNotNull>
+
+        WHERE `id` = #id#
+    </update>
+
+    <update id="favorite" parameterClass="FavoriteBlock">
+        UPDATE `iptv_favorite_block`
+        SET `partition_id` = #partition_id#
+            ,`user_id` = #user_id#
+            ,`channel_id` = #channel_id#
+            ,`favorite` = #favorite#
+            ,`favorite_date_time` = #favorite_date_time#
+
+        WHERE `id` = #id#
+    </update>
+    <update id="unFavorite" parameterClass="FavoriteBlock">
+        UPDATE `iptv_favorite_block`
+        SET `partition_id` = #partition_id#
+            ,`user_id` = #user_id#
+            ,`channel_id` = #channel_id#
+            ,`favorite` = #favorite#
+            ,`favorite_date_time` = #favorite_date_time#
+
+        WHERE `id` = #id#
+    </update>
+
+    <update id="block" parameterClass="FavoriteBlock">
+        UPDATE `iptv_favorite_block`
+        SET `partition_id` = #partition_id#
+            ,`user_id` = #user_id#
+            ,`block` = #block#
+            ,`block_password` = #blockPassword#
+            ,`block_date_time` = #block_date_time#
+        WHERE `id` = #id#
+    </update>
+    <update id="unblock" parameterClass="FavoriteBlock">
+        UPDATE `iptv_favorite_block`
+        SET `partition_id` = #partition_id#
+        ,`user_id` = #user_id#
+        ,`channel_id` = #channel_id#
+        ,`block` = #block#
+        ,`block_password` = NULL
+        ,`block_date_time` = #block_date_time#
+
+        WHERE `id` = #id#
+    </update>
+
+
+</sqlMap>

@@ -1,0 +1,95 @@
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="nsUserRatingInfo">
+
+    <cacheModel id="cmUserRatingInfo" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="fileSize" value="1000"/>
+    </cacheModel>
+<!--
+private int id;
+    private Long userId;
+    private String password;
+    private String rating;
+    private int noRating;
+    private String channelCategory;
+    private int watchingChannel;
+-->
+    <resultMap id="rmUserRatingInfo" class="UserRatingInfo">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="userId" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="rating" column="rating"/>
+        <result property="noRating" column="no_rating"/>
+        <result property="channelCategory" column="channel_category"/>
+        <result property="watchingChannel" column="watching_channel"/>
+    </resultMap>
+
+    <insert id="add" parameterClass="UserRatingInfo">
+        INSERT INTO `iptv_user_rating_info` (
+            user_id,
+            password,
+            rating,
+            no_rating,
+            channel_category,
+            watching_channel
+        ) VALUES (
+            #userId#,
+            #password#,
+            #rating#,
+            #noRating#,
+            #channelCategory#,
+            #watchingChannel#
+        )
+
+        <selectKey keyProperty="id" resultClass="long">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+
+    </insert>
+
+    <select id="getById" cacheModel="cmUserRatingInfo" resultMap="rmUserRatingInfo" parameterClass="long">
+        select * from iptv_user_rating_info where id=#id#
+    </select>
+    <select id="getByUserId" cacheModel="cmUserRatingInfo" resultMap="rmUserRatingInfo" parameterClass="long">
+        select * from iptv_user_rating_info where user_id=#userId#
+    </select>
+
+    <select id="countByParams" cacheModel="cmUserRatingInfo" resultClass="int" parameterClass="map">
+        select count(id) from iptv_user_rating_info
+        <dynamic prepend="WHERE"> 1
+            <isNotNull property="id">
+                AND `id` = #id#
+            </isNotNull>
+            <isNotNull property="userId">
+                AND `user_id` = #userId#
+            </isNotNull>
+            <isNotNull property="password">
+                AND `password` = #password#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <update id="update" parameterClass="UserRatingInfo">
+        UPDATE `iptv_user_rating_info`
+        SET `user_id` = #userId#
+        <isNotNull property="password">
+            ,`password` = #password#
+        </isNotNull>
+        <isNotNull property="rating">
+            ,`rating` = #rating#
+        </isNotNull>
+        <isNotNull property="noRating">
+            ,`no_rating` = #noRating#
+        </isNotNull>
+        <isNotNull property="channelCategory">
+            ,`channel_category` = #channelCategory#
+        </isNotNull>
+        <isNotNull property="watchingChannel">
+            ,`watching_channel` = #watchingChannel#
+        </isNotNull>
+        WHERE `user_id` = #userId#
+    </update>
+
+</sqlMap>

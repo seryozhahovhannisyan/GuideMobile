@@ -1,0 +1,45 @@
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="nsIPTVChannelCountryTimezone">
+
+    <cacheModel id="cmIPTVChannelCountryTimezone" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="fileSize" value="1000"/>
+    </cacheModel>
+
+    <resultMap id="rmIPTVChannelCountryTimezone" class="IPTVChannelCountryTimezone">
+        <result property="id" column="id" nullValue="0"/>
+        <result property="name" column="name"/>
+        <result property="timezone" column="timezone"/>
+        <result property="daylight_saving" column="daylight_saving"/>
+        <result property="start_month" column="start_month"/>
+        <result property="start_week" column="start_week"/>
+        <result property="start_week_day" column="start_week_day"/>
+        <result property="start_day" column="start_day"/>
+        <result property="end_month" column="end_month"/>
+        <result property="end_week" column="end_week"/>
+        <result property="end_week_day" column="end_week_day"/>
+        <result property="end_day" column="end_day"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="getById" cacheModel="cmIPTVChannelCountryTimezone" resultMap="rmIPTVChannelCountryTimezone"
+            parameterClass="int">
+        select * from iptv_channel_country_timezone where id=#id#
+    </select>
+
+    <select id="getByParams" cacheModel="cmIPTVChannelCountryTimezone" resultMap="rmIPTVChannelCountryTimezone"
+            parameterClass="map">
+        select * from iptv_channel_country_timezone
+        <dynamic prepend="WHERE">1
+            <isNotNull property="id">
+                AND `id` = #id#
+            </isNotNull>
+            <isNotNull property="limit">
+                LIMIT #limit# OFFSET #offset#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+</sqlMap>
