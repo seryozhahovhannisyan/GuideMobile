@@ -19,15 +19,14 @@ public class CategoryController {
 
     private static final Logger logger = Logger.getLogger(CategoryController.class.getSimpleName());
 
-    @Autowired
-    private ResponseDto responseDto;
+    private ResponseDto responseDto = new ResponseDto();
 
     @Autowired
     private CategoryService service;
 
     @RequestMapping(path = "m-channel-categories.htm", method = RequestMethod.GET)
     public ResponseDto mobileChannelCategories() {
-        responseDto.cleanMessages();
+
         int partitionId = ServiceHelper.getAuthenticatedUser().getPartitionId();
 
         if (partitionId == 0) {
