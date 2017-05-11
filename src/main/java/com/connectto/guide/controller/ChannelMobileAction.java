@@ -31,8 +31,7 @@ public class ChannelMobileAction {
     @Autowired
     private ChannelService channelService;
 
-    @Autowired
-    private ResponseDto responseDto;
+    private ResponseDto responseDto = new ResponseDto();
 
     public static final String channelLogoPath = "https://www.connecttotv.com/staticData/iptv/channalImages/";
 
@@ -47,7 +46,6 @@ public class ChannelMobileAction {
     public ResponseDto mobileChannelExistCount(@RequestParam("existsChannelIdes") String existsChannelIdes,
                                                @RequestParam("channelUpdateDate") String channelUpdateDate) {
 
-        responseDto.cleanMessages();
         User authenticatedUser = ServiceHelper.getAuthenticatedUser();
         if (authenticatedUser == null) {
             responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
@@ -96,7 +94,6 @@ public class ChannelMobileAction {
     public ResponseDto mobileChannelIdes(@RequestParam("existsChannelIdes") String existsChannelIdes,
                                          @RequestParam("channelUpdateDate") String channelUpdateDate) {
 
-        responseDto.cleanMessages();
 
         User user = ServiceHelper.getAuthenticatedUser();
         if (user == null) {
@@ -142,7 +139,6 @@ public class ChannelMobileAction {
     @RequestMapping(path = load_primary_channels, method = RequestMethod.GET)
     public ResponseDto mobileLoadPrimaryChannel(@RequestParam("channel_id") String channel_id) {
 
-        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
         if (user == null) {
             return responseDto;
@@ -186,7 +182,6 @@ public class ChannelMobileAction {
                                                   @RequestParam("periodStart") String periodStart,
                                                   @RequestParam("periodEnd") String periodEnd) {
 
-        responseDto.cleanMessages();
         int partitionId = ServiceHelper.getAuthenticatedUser().getPartitionId();
 
         if (partitionId == 0) {

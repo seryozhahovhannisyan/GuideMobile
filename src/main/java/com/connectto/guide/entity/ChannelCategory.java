@@ -9,7 +9,7 @@ public class ChannelCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private int id;
+    private long id;
 
     @Column(name = "category_name")
     private String name;
@@ -20,16 +20,19 @@ public class ChannelCategory {
     @Column(name = "partition_id")
     private int partitionId;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
     /*##################################################################################################################
      *                                  GETTERS & SETTERS
      *##################################################################################################################
      */
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public ChannelCategory setId(int id) {
+    public ChannelCategory setId(long id) {
         this.id = id;
         return this;
     }
@@ -59,5 +62,13 @@ public class ChannelCategory {
     public ChannelCategory setPartitionId(int partitionId) {
         this.partitionId = partitionId;
         return this;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

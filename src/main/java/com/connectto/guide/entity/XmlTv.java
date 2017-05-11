@@ -10,7 +10,7 @@ public class XmlTv {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "channel")
     private String channel;
@@ -40,11 +40,11 @@ public class XmlTv {
      *##################################################################################################################
      */
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public XmlTv setId(int id) {
+    public XmlTv setId(long id) {
         this.id = id;
         return this;
     }

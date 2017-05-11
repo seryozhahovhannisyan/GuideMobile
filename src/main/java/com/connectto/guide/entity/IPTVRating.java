@@ -12,7 +12,7 @@ public class IPTVRating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rating_id")
-    private int ratingId;
+    private long ratingId;
 
     @Column(name = "rating")
     private String rating;
@@ -37,11 +37,11 @@ public class IPTVRating {
      *##################################################################################################################
      */
 
-    public int getRatingId() {
+    public long getRatingId() {
         return ratingId;
     }
 
-    public IPTVRating setRatingId(int ratingId) {
+    public IPTVRating setRatingId(long ratingId) {
         this.ratingId = ratingId;
         return this;
     }

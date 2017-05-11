@@ -13,13 +13,13 @@ public class IPTVLanguage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "language_id")
-    private int languageId;
+    private long languageId;
 
     @Column(name = "language")
     private String language;
 
-    @Column(name = "name")
-    private int partition_id;
+    @Column(name = "partition_id")
+    private int partitionId;
 
     @Column(name = "deleted")
     private boolean deleted;
@@ -29,39 +29,35 @@ public class IPTVLanguage {
      *##################################################################################################################
      */
 
-    public int getLanguageId() {
+    public long getLanguageId() {
         return languageId;
     }
 
-    public IPTVLanguage setLanguageId(int languageId) {
+    public void setLanguageId(long languageId) {
         this.languageId = languageId;
-        return this;
     }
 
     public String getLanguage() {
         return language;
     }
 
-    public IPTVLanguage setLanguage(String language) {
+    public void setLanguage(String language) {
         this.language = language;
-        return this;
     }
 
-    public int getPartition_id() {
-        return partition_id;
+    public int getPartitionId() {
+        return partitionId;
     }
 
-    public IPTVLanguage setPartition_id(int partition_id) {
-        this.partition_id = partition_id;
-        return this;
+    public void setPartitionId(int partitionId) {
+        this.partitionId = partitionId;
     }
 
     public boolean isDeleted() {
         return deleted;
     }
 
-    public IPTVLanguage setDeleted(boolean deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-        return this;
     }
 }

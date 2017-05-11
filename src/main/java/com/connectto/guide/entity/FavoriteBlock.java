@@ -50,80 +50,71 @@ public class FavoriteBlock {
         return id;
     }
 
-    public FavoriteBlock setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
     public int getPartitionId() {
         return partitionId;
     }
 
-    public FavoriteBlock setPartitionId(int partitionId) {
+    public void setPartitionId(int partitionId) {
         this.partitionId = partitionId;
-        return this;
     }
 
     public long getUserId() {
         return userId;
     }
 
-    public FavoriteBlock setUserId(long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
-        return this;
     }
 
     public long getChannelId() {
         return channelId;
     }
 
-    public FavoriteBlock setChannelId(long channelId) {
+    public void setChannelId(long channelId) {
         this.channelId = channelId;
-        return this;
     }
 
     public Integer getFavorite() {
         return favorite;
     }
 
-    public FavoriteBlock setFavorite(Integer favorite) {
+    public void setFavorite(Integer favorite) {
         this.favorite = favorite;
-        return this;
     }
 
     public Date getFavoriteDateTime() {
         return favoriteDateTime;
     }
 
-    public FavoriteBlock setFavoriteDateTime(Date favoriteDateTime) {
+    public void setFavoriteDateTime(Date favoriteDateTime) {
         this.favoriteDateTime = favoriteDateTime;
-        return this;
     }
 
     public Integer getBlock() {
         return block;
     }
 
-    public FavoriteBlock setBlock(Integer block) {
+    public void setBlock(Integer block) {
         this.block = block;
-        return this;
     }
 
     public String getBlockPassword() {
         return blockPassword;
     }
 
-    public FavoriteBlock setBlockPassword(String blockPassword) {
+    public void setBlockPassword(String blockPassword) {
         this.blockPassword = blockPassword;
-        return this;
     }
 
     public Date getBlockDateTime() {
         return blockDateTime;
     }
 
-    public FavoriteBlock setBlockDateTime(Date blockDateTime) {
+    public void setBlockDateTime(Date blockDateTime) {
         this.blockDateTime = blockDateTime;
-        return this;
     }
 }

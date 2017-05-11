@@ -8,7 +8,6 @@ import com.connectto.guide.common.util.QueryConstant;
 import com.connectto.guide.common.util.QueryParam;
 import com.connectto.guide.entity.FavoriteBlock;
 import com.connectto.guide.repository.ChannelRepository;
-import com.connectto.guide.repository.ContainerCustomRepository;
 import com.connectto.guide.repository.FavoriteBlockRepository;
 import com.connectto.guide.service.FavoriteBlockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,8 +29,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
     @Autowired
     private ChannelRepository channelRepository;
 
-    @Autowired
-    private ContainerCustomRepository<FavoriteBlock,Long> customRepository;
+//    @Autowired
+//    private ContainerCustomRepository<FavoriteBlock,Long> customRepository;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
@@ -48,7 +49,7 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
             }
 
-            List<FavoriteBlock> exists = customRepository.getByParams("*", "iptv_favorite_block", queryParams, null);
+            List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
             if (CollectionHelper.isEmpty(exists)) {
                 repository.save(favoriteBlock);
             } else {
@@ -78,7 +79,7 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
             }
 
-            List<FavoriteBlock> exists = customRepository.getByParams("*", "iptv_favorite_block", queryParams, null);
+            List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
             if (CollectionHelper.isEmpty(exists)) {
                 repository.save(favoriteBlock);
             } else {
@@ -108,7 +109,7 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
             }
 
-            List<FavoriteBlock> exists = customRepository.getByParams("*", "iptv_favorite_block", queryParams, null);
+            List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
             if (CollectionHelper.isEmpty(exists)) {
                 repository.save(favoriteBlock);
             } else {
@@ -143,7 +144,7 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
             }
 
-            List<FavoriteBlock> exists = customRepository.getByParams("*", "iptv_favorite_block", queryParams, null);
+            List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
             if (CollectionHelper.isEmpty(exists)) {
                 throw new DataNotFoundException("Could not unblock channel as channel not blocked");
             } else {

@@ -1,5 +1,7 @@
 package com.connectto.guide.controller.dto;
 
+import org.springframework.context.annotation.Bean;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

@@ -29,5 +29,12 @@ public interface FavoriteBlockRepository extends JpaRepository<FavoriteBlock, Lo
                             @Param("blockPassword") String blockPassword,
                             @Param("blockDateTime") Date blockDateTime);
 
+    @Modifying
+    @Query("SELECT fb FROM FavoriteBlock fb  WHERE fb.userId=:userId AND fb.channelId=:channelId ")
+    public List<FavoriteBlock> getByUserIdAndChannelId(@Param("userId") Long userId,
+                                                       @Param("channelId") Long channelId);
+
+
+
 
 }

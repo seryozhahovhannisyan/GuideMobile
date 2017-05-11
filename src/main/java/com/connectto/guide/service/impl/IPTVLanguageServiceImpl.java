@@ -26,7 +26,7 @@ public class IPTVLanguageServiceImpl implements IPTVLanguageService {
 
 
     @Autowired
-    private ContainerCustomRepository<IPTVLanguage, Long> repository;
+    private IPTVLanguageRepository repository;
 
 
     @Override
@@ -37,7 +37,7 @@ public class IPTVLanguageServiceImpl implements IPTVLanguageService {
         queryParams.add(new QueryParam("deleted", 0, QueryConstant.EQUAL));
 
         try {
-            return repository.getByParams("*", "iptv_languages", queryParams, null);
+            return repository.getByPartitionId(partitionId);
         } catch (RuntimeException e) {
             throw new InternalErrorException(e);
         }

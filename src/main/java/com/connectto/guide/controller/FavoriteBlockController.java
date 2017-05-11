@@ -33,15 +33,13 @@ public class FavoriteBlockController {
     @Autowired
     private FavoriteBlockService service;
 
-    @Autowired
-    private ResponseDto responseDto;
+    private ResponseDto responseDto = new ResponseDto();
 
     private String blockDefaultPassword = "1111";
 
 
     @RequestMapping(path = "/m-favorite-channel.htm", method = RequestMethod.GET)
     public ResponseDto favorite(@RequestParam("channel_id") String channel_id) {
-        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
@@ -89,7 +87,6 @@ public class FavoriteBlockController {
 
     @RequestMapping(path = "/m-unfavorite-channel.htm", method = RequestMethod.GET)
     public ResponseDto unFavorite(@RequestParam("channel_id") String channel_id) {
-        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
@@ -140,7 +137,6 @@ public class FavoriteBlockController {
     public ResponseDto block(@RequestParam("channel_id") String channel_id,
                              @RequestParam("blockPassword") String blockPassword) {
 
-        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
@@ -194,7 +190,6 @@ public class FavoriteBlockController {
     public ResponseDto unBlock(@RequestParam("channel_id") String channel_id,
                                @RequestParam("blockPassword") String blockPassword) {
 
-        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
