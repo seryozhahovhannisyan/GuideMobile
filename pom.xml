@@ -24,9 +24,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/seryozhahovhannisyan/JSONWebTokens.git</connection>
-		<url>https://github.com/seryozhahovhannisyan/JSONWebTokens.git</url>
-		<developerConnection>scm:git:git@github.com/seryozhahovhannisyan/JSONWebTokens.git</developerConnection>
+		<connection>scm:git:git://github.com/seryozhahovhannisyan/GuideMobile.git</connection>
+		<url>https://github.com/seryozhahovhannisyan/GuideMobile.git</url>
+		<developerConnection>scm:git:git@github.com/seryozhahovhannisyan/GuideMobile.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
