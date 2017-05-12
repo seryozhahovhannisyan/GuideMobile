@@ -46,7 +46,7 @@ $(function () {
                         .empty()
                         .html("<p>Spring exception:<br>" + jqXHR.responseJSON.exception + "</p>");
                 } else {
-                    throw new Error("an unexpected error occured: " + errorThrown);
+                    throw new Error("an unexpected error Occurred: " + errorThrown);
                 }
             }
         });

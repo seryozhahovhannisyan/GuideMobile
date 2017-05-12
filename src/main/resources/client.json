@@ -10,6 +10,35 @@
         "async": "true"
       },
 
+    {
+        "url": "/favorite/18",
+        "headers":[{"Authorization": "Basic GSI4N4165R4DGPOPQVBZ0L6MBVG37E5Z"}],/*if undifined get default header. see client.js*/
+		"data": "",
+        "type": "json",
+        "method": "get",
+        "async": "true"
+      },
+    {
+        "url": "/favorite/94/21",
+        "headers":[{"Authorization": "Basic GSI4N4165R4DGPOPQVBZ0L6MBVG37E5Z"}],/*if undifined get default header. see client.js*/
+		"data": "",
+        "PathVariables": "[[93,36],[94,21]]",
+        "type": "json",
+        "method": "get",
+        "async": "true"
+      },
+    {
+        "urls": "/favorite",
+        "headers":[{"Authorization": "Basic GSI4N4165R4DGPOPQVBZ0L6MBVG37E5Z"}],/*if undifined get default header. see client.js*/
+		"data": "",
+        "PathVariables": "[[118],[122]]",
+        "type": "json",
+        "method": "get",
+        "async": "true"
+      },
+
+
+
 
       {
         "url": "data2.json",

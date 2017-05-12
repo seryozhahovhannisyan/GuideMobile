@@ -44,6 +44,7 @@ public class CategoryController {
             responseDto.setStatus(ResponseStatus.SUCCESS);
         } catch (InternalErrorException e) {
             logger.error(e);
+            responseDto.setActionerror("Internal Error Occurred");
             responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         }
 

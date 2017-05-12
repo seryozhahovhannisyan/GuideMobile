@@ -34,7 +34,7 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-    public void favorite(FavoriteBlock favoriteBlock) throws InternalErrorException, DataNotFoundException, PermissionDeniedException {
+    public void favorite(FavoriteBlock favoriteBlock) throws InternalErrorException, DataNotFoundException {
         long channelId = favoriteBlock.getChannelId();
 
         List<QueryParam> queryParams = new LinkedList<>();
@@ -45,8 +45,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
         try {
 
             long count = channelRepository.countByChannelId(channelId);
-            if (count > 0) {
-                throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
+            if (count < 1) {
+                throw new DataNotFoundException("Could not found channel, incorrect channelId " + channelId);
             }
 
             List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
@@ -56,6 +56,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 Long id = exists.get(0).getId();
                 repository.updateFavorite(id, 1, new Date(System.currentTimeMillis()));
             }
+        } catch (DataNotFoundException e) {
+            throw new DataNotFoundException(e);
         } catch (Exception e) {
             throw new InternalErrorException(e);
         }
@@ -63,7 +65,7 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-    public void unFavorite(FavoriteBlock favoriteBlock) throws InternalErrorException, DataNotFoundException, PermissionDeniedException {
+    public void unFavorite(FavoriteBlock favoriteBlock) throws InternalErrorException, DataNotFoundException {
 
         long channelId = favoriteBlock.getChannelId();
 
@@ -75,8 +77,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
         try {
 
             long count = channelRepository.countByChannelId(channelId);
-            if (count > 0) {
-                throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
+            if (count < 1) {
+                throw new DataNotFoundException("Could not found channel, incorrect channelId " + channelId);
             }
 
             List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
@@ -86,6 +88,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 Long id = exists.get(0).getId();
                 repository.updateFavorite(id, 0, new Date(System.currentTimeMillis()));
             }
+        } catch (DataNotFoundException e) {
+            throw new DataNotFoundException(e);
         } catch (Exception e) {
             throw new InternalErrorException(e);
         }
@@ -105,8 +109,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
         try {
 
             long count = channelRepository.countByChannelId(channelId);
-            if (count > 0) {
-                throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
+            if (count < 1) {
+                throw new DataNotFoundException("Could not found channel, incorrect channelId " + channelId);
             }
 
             List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
@@ -121,6 +125,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 long id = exists.get(0).getId();
                 repository.updateBlock(id, 1, favoriteBlock.getBlockPassword(), new Date(System.currentTimeMillis()));
             }
+        } catch (DataNotFoundException e) {
+            throw new DataNotFoundException(e);
         } catch (Exception e) {
             throw new InternalErrorException(e);
         }
@@ -140,8 +146,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
         try {
 
             long count = channelRepository.countByChannelId(channelId);
-            if (count > 0) {
-                throw new PermissionDeniedException("Could not found channel, incorrect id" + channelId);
+            if (count < 1) {
+                throw new DataNotFoundException("Could not found channel, incorrect channelId " + channelId);
             }
 
             List<FavoriteBlock> exists = repository.getByUserIdAndChannelId(favoriteBlock.getUserId(), channelId);
@@ -160,6 +166,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
                 long id = exists.get(0).getId();
                 repository.updateBlock(id, 0, "", new Date(System.currentTimeMillis()));
             }
+        } catch (DataNotFoundException e) {
+            throw new DataNotFoundException(e);
         } catch (Exception e) {
             throw new InternalErrorException(e);
         }

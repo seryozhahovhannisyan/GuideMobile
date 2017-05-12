@@ -12,14 +12,12 @@ import com.connectto.guide.service.FavoriteBlockService;
 import com.connectto.guide.service.util.ServiceHelper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-@Controller
+@RestController
 public class FavoriteBlockController {
 
     private static final Logger logger = Logger.getLogger(FavoriteBlockController.class.getSimpleName());
@@ -27,16 +25,27 @@ public class FavoriteBlockController {
     @Autowired
     private FavoriteBlockService service;
 
+    @Autowired
     private ResponseDto responseDto = new ResponseDto();
 
-    private String blockDefaultPassword = "1111";
+    @Value("${guide.blockPassword}")
+    private String blockDefaultPassword;
 
 
-    @RequestMapping(path = "/m-favorite-channel.htm", method = RequestMethod.GET)
-    public ResponseDto favorite(@RequestParam("channel_id") String channel_id) {
+    @RequestMapping(path = "/favorite/{channelId}", method = RequestMethod.POST)
+    public ResponseDto favorite(@PathVariable(value = "channelId") String channelId) {
+
+        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
+            responseDto.setActionerror("Invalid sessionId");
+            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
+            return responseDto;
+        }
+
+        if (StringHelper.isBlank(channelId)) {
+            responseDto.setActionerror("empty channelId");
             responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
             return responseDto;
         }
@@ -54,36 +63,43 @@ public class FavoriteBlockController {
 
         try {
 
-            Long channelId = Long.parseLong(channel_id);
-            favoriteBlock.setChannelId(channelId);
+            favoriteBlock.setChannelId(Long.parseLong(channelId));
             service.favorite(favoriteBlock);
-            responseDto.setActionmessage("Channel made as favorite successfully");
+            responseDto.setActionmessage("Channel made as favorite");
             responseDto.setStatus(ResponseStatus.SUCCESS);
 
-        } catch (InternalErrorException e) {
+        }  catch (DataNotFoundException e) {
             logger.error(e);
-            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
-        } catch (DataNotFoundException e) {
-            logger.error(e);
+            responseDto.setActionerror(e.getMessage());
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
-        } catch (PermissionDeniedException e) {
-            logger.error(e);
-            responseDto.setStatus(ResponseStatus.PERMISSION_DENIED);
         } catch (NumberFormatException e) {
             logger.error(e);
             responseDto.setActionerror("Incorrect incoming channelId");
             responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
+        } catch (InternalErrorException e) {
+            logger.error(e);
+            responseDto.setActionerror("Internal Error Occurred");
+            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         }
 
         return responseDto;
     }
 
 
-    @RequestMapping(path = "/m-unfavorite-channel.htm", method = RequestMethod.GET)
-    public ResponseDto unFavorite(@RequestParam("channel_id") String channel_id) {
+    @RequestMapping(path = "/unfavorite/{channelId}", method = RequestMethod.POST)
+    public ResponseDto unFavorite(@PathVariable(value = "channelId") String channelId) {
+
+        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
+            responseDto.setActionerror("Invalid sessionId");
+            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
+            return responseDto;
+        }
+
+        if (StringHelper.isBlank(channelId)) {
+            responseDto.setActionerror("empty channelId");
             responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
             return responseDto;
         }
@@ -101,33 +117,31 @@ public class FavoriteBlockController {
 
         try {
 
-            Long channelId = Long.parseLong(channel_id);
-            favoriteBlock.setChannelId(channelId);
+            favoriteBlock.setChannelId(Long.parseLong(channelId));
 
             service.unFavorite(favoriteBlock);
             responseDto.setStatus(ResponseStatus.SUCCESS);
-            responseDto.setActionmessage("Channel unmade as favorite successfully");
+            responseDto.setActionmessage("Channel unmade as favorite");
 
-        } catch (InternalErrorException e) {
-            logger.error(e);
-            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         } catch (DataNotFoundException e) {
             logger.error(e);
+            responseDto.setActionerror(e.getMessage());
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
-        } catch (PermissionDeniedException e) {
-            logger.error(e);
-            responseDto.setStatus(ResponseStatus.PERMISSION_DENIED);
         } catch (NumberFormatException e) {
             logger.error(e);
             responseDto.setActionerror("Incorrect incoming channelId");
             responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
+        } catch (InternalErrorException e) {
+            logger.error(e);
+            responseDto.setActionerror("Internal Error Occurred");
+            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         }
 
         return responseDto;
     }
 
 
-    @RequestMapping(path = "/m-block-channel.htm", method = RequestMethod.GET)
+    @RequestMapping(path = "/m-block-channel", method = RequestMethod.GET)
     public ResponseDto block(@RequestParam("channel_id") String channel_id,
                              @RequestParam("blockPassword") String blockPassword) {
 
@@ -162,10 +176,7 @@ public class FavoriteBlockController {
             responseDto.setStatus(ResponseStatus.SUCCESS);
             responseDto.setActionmessage("Channel blocked successfully");
 
-        } catch (InternalErrorException e) {
-            logger.error(e);
-            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
-        } catch (DataNotFoundException e) {
+        }  catch (DataNotFoundException e) {
             logger.error(e);
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
         } catch (PermissionDeniedException e) {
@@ -175,12 +186,16 @@ public class FavoriteBlockController {
             logger.error(e);
             responseDto.setActionerror("Incorrect incoming channelId");
             responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
+        } catch (InternalErrorException e) {
+            logger.error(e);
+            responseDto.setActionerror("Internal Error Occurred");
+            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         }
 
         return responseDto;
     }
 
-    @RequestMapping(path = "/m-unblock-channel.htm", method = RequestMethod.GET)
+    @RequestMapping(path = "/m-unblock-channel", method = RequestMethod.GET)
     public ResponseDto unBlock(@RequestParam("channel_id") String channel_id,
                                @RequestParam("blockPassword") String blockPassword) {
 
@@ -218,10 +233,7 @@ public class FavoriteBlockController {
             responseDto.setActionmessage("Channel unblocked successfully");
             responseDto.setStatus(ResponseStatus.SUCCESS);
 
-        } catch (InternalErrorException e) {
-            logger.error(e);
-            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
-        } catch (DataNotFoundException e) {
+        }  catch (DataNotFoundException e) {
             logger.error(e);
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
         } catch (PermissionDeniedException e) {
@@ -231,6 +243,10 @@ public class FavoriteBlockController {
             logger.error(e);
             responseDto.setActionerror("Incorrect incoming channelId");
             responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
+        } catch (InternalErrorException e) {
+            logger.error(e);
+            responseDto.setActionerror("Internal Error Occurred");
+            responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         }
 
         return responseDto;

@@ -5,6 +5,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+
 import static com.connectto.guide.client.ClientConstant.*;
 
 /**
@@ -42,9 +43,31 @@ public class Client {
         System.out.println(user);
     }
 
+    private static void favorite() {
+        System.out.println("\nTesting mobileChannelCategories API----------");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_FAVORITE + "/118", HttpMethod.POST, request, ResponseDto.class);
+        ResponseDto user = response.getBody();
+        System.out.println(user);
+    }
+
+    private static void unFavorite() {
+        System.out.println("\nTesting mobileChannelCategories API----------");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_UN_FAVORITE + "/11812", HttpMethod.POST, request, ResponseDto.class);
+        ResponseDto user = response.getBody();
+        System.out.println(user);
+    }
+
+
     public static void main(String args[]) {
-        mobileIPTVLanguages();
-        mobileChannelCategories();
+//        mobileIPTVLanguages();
+//        mobileChannelCategories();
+
+//        favorite();
+        unFavorite();
 
     }
 }

@@ -1,6 +1,6 @@
 package com.connectto.guide.repository;
 
-import com.connectto.guide.entity.FavoriteBlock;
+import com.connectto.guide.entity.Channel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface ChannelRepository extends JpaRepository<FavoriteBlock, Long>, CrudRepository<FavoriteBlock,Long> {
+public interface ChannelRepository extends JpaRepository<Channel, Long>, CrudRepository<Channel,Long> {
     public Long countByChannelId(Long id);
 }

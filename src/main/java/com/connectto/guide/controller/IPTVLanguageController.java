@@ -9,6 +9,7 @@ import com.connectto.guide.service.IPTVLanguageService;
 import com.connectto.guide.service.util.ServiceHelper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +28,14 @@ public class IPTVLanguageController {
     private IPTVLanguageService service;
 
     @RequestMapping(path = "/m-iptv-languages", method = RequestMethod.GET)
-    public ResponseDto mobileIPTVLanguages() {
+    public ResponseDto mobileIPTVLanguages(Device device) {
 
         responseDto.cleanMessages();
+        //check device permission
+       /* if (device.isNormal()) {
+        } else if (device.isTablet()) {
+        } else if (device.isMobile()) {
+        }*/
 
         int partitionId = ServiceHelper.getAuthenticatedUser().getPartitionId();
 
@@ -45,6 +51,7 @@ public class IPTVLanguageController {
             responseDto.setStatus(ResponseStatus.SUCCESS);
         } catch (InternalErrorException e) {
             logger.error(e);
+            responseDto.setActionerror("Internal Error Occurred");
             responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         }
 
