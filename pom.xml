@@ -11,6 +11,25 @@
 	<name>GuideMobile</name>
 	<description>GuideMobile Rest Application</description>
 
+	<developers>
+		<developer>
+			<name>Seryozha Hovhannisyan</name>
+			<email>seryozha.hovhannisyan@gmail.com</email>
+		</developer>
+		<developer>
+			<name>Samvel Gevorgyan</name>
+			<email>seryozha.hovhannisyan@gmail.com</email>
+		</developer>
+
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/seryozhahovhannisyan/JSONWebTokens.git</connection>
+		<url>hhttps://github.com/seryozhahovhannisyan/JSONWebTokens.git</url>
+		<developerConnection>scm:git:git@github.com/seryozhahovhannisyan/JSONWebTokens.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

@@ -1,0 +1,170 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body,html{
+    height: 100%;
+}
+.main {
+    padding: 10px;
+    background-color: #d8dfe5;
+    height: 100%;
+
+}
+.table_div_pareent {
+text-align: center;
+
+}
+.table_main_request{
+    border: 1px solid black;
+    margin: 0 auto;
+    /*overflow: auto;*/
+    /*position: absolute;*/
+    /*display: inline-block;*/
+    /*width: 100%;*/
+    /*height: 400px;*/
+    table-layout:fixed;
+
+}
+.table_main_request td {
+    width: 100px;
+    line-height: 2;
+}
+
+.submit_input_div,.add_input_div,.request_count{
+    display: inline-block;
+}
+
+.label_count{
+    font-weight: bold;
+    color: #b0b0b0;
+}
+
+.label_count input{
+    width: 40px;
+    text-align: center;
+    padding: 0 2px;
+
+}
+
+.add_button,.submit_button{
+    padding: 10px 20px;
+    background-color: aqua;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 5px #b0b0b0;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px 0;
+
+}
+.add_input{
+    padding: 10px 20px;
+    background-color: aliceblue;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 5px #b0b0b0;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px 0;
+    text-transform:capitalize
+}
+.datas_div{
+    background-color: white;
+    border: 1px solid black;
+    height: 100px;
+    overflow: auto;
+    width: 350px;
+    padding-top: 5px;
+}
+
+.datas_div input {
+    width: 100px;
+    height: 30px;
+    background-color: aliceblue;
+    text-align: center;
+    border: 1px solid black;
+    margin-bottom: 2px;
+}
+
+
+.table_main_request tr:nth-child(even){
+    background-color: #98b6af;
+}
+
+.table_main_request tr:nth-child(odd){
+    background-color: #d5e4e1;
+}
+
+
+.table_main_request tbody{
+    display: block;
+    overflow: auto;
+    max-height: 700px;
+}
+
+.table_main_request thead  tr:first-child{
+    background-color: #99b09a;
+    position: relative;
+    display: block;
+
+
+}
+.table_main_request thead  tr:first-child th{
+    width: 100px;
+}
+
+td > input[type=text] {
+    width: 100px;
+    height: 30px;
+    background-color: aliceblue;
+    text-align: center;
+    border: 1px solid black;
+}
+.see_more{
+    background-color: #8fa690;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 5px black;
+    padding: 3px;
+    cursor: pointer;
+}
+.red {
+    background-color: red;
+}
+.info_data{
+    width: 1000px;
+    height: 500px;
+    background-color: #d4ffec;
+    box-shadow: 0 0 5px black;
+    position: absolute;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto auto;
+    overflow: auto;
+}
+
+.infoResponsePre{
+    border:1px solid black;
+    display: inline-block;
+    background-color: #eafff4;
+}
+.info_data_parent{
+    padding: 5px;
+}
+.close_buuton_div{
+    padding: 5px;
+}
+.close_buuton_div button {
+    padding: 5px;
+    float: right;
+    background-color: aqua;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 5px #b0b0b0;
+    font-weight: bold;
+    cursor: pointer;
+
+}

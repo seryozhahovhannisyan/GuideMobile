@@ -15,17 +15,17 @@ import java.util.List;
  * Created by User on 29.04.2017.
  */
 public class IPTVLanguageClient {
-    public static final String REST_SERVICE_URI = "http://localhost:8080";
+    public static final String REST_SERVICE_URI = "http://localhost:8888";
 
     /*
      * Add HTTP Authorization header, using Basic-Authentication to send user-credentials.
      */
     private static HttpHeaders getHeaders() {
-        String plainCredentials = "john123:password";
+        String plainCredentials = "GSI4N4165R4DGPOPQVBZ0L6MBVG37E5Z:password";
         String base64Credentials = new String(Base64.encode(plainCredentials.getBytes()));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic am9objEyMzpwYXNzd29yZA==");
+        headers.add("Authorization", "Basic WHI68DSF450UDWO616N3Q89FDSVA4GYW" );
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         return headers;
     }
@@ -35,22 +35,12 @@ public class IPTVLanguageClient {
         System.out.println("\nTesting getUser API----------");
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<String>(getHeaders());
-        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + "/m-iptv-languages.htm", HttpMethod.GET, request, ResponseDto.class);
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + "/m-iptv-languages", HttpMethod.GET, request, ResponseDto.class);
         ResponseDto user = response.getBody();
         System.out.println(user);
     }
 
-    private static void userHtm() {
-        System.out.println("\nTesting getUser API----------");
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<String> request = new HttpEntity<String>(getHeaders());
-        ResponseEntity<User> response = restTemplate.exchange(REST_SERVICE_URI + "/user.htm", HttpMethod.GET, request, User.class);
-        User user = response.getBody();
-        System.out.println(user);
-    }
-
     public static void main(String args[]) {
-//        mobileIPTVLanguages();
-        userHtm();
+        mobileIPTVLanguages();
     }
 }

@@ -25,30 +25,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 public class IPTVLanguageController {
 
     private static final Logger logger = Logger.getLogger(IPTVLanguageController.class.getSimpleName());
 
-    private ResponseDto responseDto = new ResponseDto();
+    @Autowired
+    private ResponseDto responseDto;
 
     @Autowired
     private IPTVLanguageService service;
 
-    @RequestMapping(path = "/userhtm", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listUser() {
-        return new ResponseEntity<List<User>>(UserController.getUsers(), HttpStatus.OK);
-    }
-
     @RequestMapping(path = "/m-iptv-languages", method = RequestMethod.GET)
-    public ResponseEntity<ResponseDto> mobileIPTVLanguages() {
+    public ResponseDto mobileIPTVLanguages() {
 
         int partitionId = ServiceHelper.getAuthenticatedUser().getPartitionId();
 
         if (partitionId == 0) {
-            responseDto.addFieldError("sessionId", "Invalid sessionId");
+            responseDto.setActionerror("Invalid sessionId");
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
-            return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
+            return responseDto;
+//            return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
         }
 
         try {
@@ -60,6 +57,7 @@ public class IPTVLanguageController {
             responseDto.setStatus(ResponseStatus.INTERNAL_ERROR);
         }
 
-        return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
+        return responseDto;
+//        return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
     }
 }

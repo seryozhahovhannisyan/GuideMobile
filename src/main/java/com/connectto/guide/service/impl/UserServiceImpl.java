@@ -1,52 +1,35 @@
 package com.connectto.guide.service.impl;
 
 
+import com.connectto.guide.common.exception.InternalErrorException;
 import com.connectto.guide.config.SessionUser;
-import com.connectto.guide.controller.UserController;
-import com.connectto.guide.entity.User;
+import com.connectto.guide.repository.UserRepository;
 import com.connectto.guide.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Garik on 4/30/16.
  */
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserRepository repository;
 
     /**
      * retrieve user's data to complete authentication
      */
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        return new SessionUser(UserController.find("12"));
-    }
-
-    @Override 
-    public User add(User user) throws Exception {
-         return UserController.find("12");
-    }
-
-    @Override
-    public User getByID(Long id) throws Exception {
-        return UserController.find("12");
-    } 
-
-    @Override
-    public List<User> getList(int page) throws Exception {
-        return UserController.getUsers();
-    }
-
-    @Override
-    public User edit(User user) throws Exception {
-        return UserController.find("12");
-    }
-
-    @Override
-    public void delete(User user) throws Exception {
+    public UserDetails loadUserByUsername(String sessionId) throws UsernameNotFoundException {
+        try {
+            return new SessionUser(repository.getBySessionId(sessionId));
+        } catch (InternalErrorException e) {
+            throw new UsernameNotFoundException(e.getMessage());
+        }
     }
 }

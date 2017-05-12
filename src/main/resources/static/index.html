@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Guide Mobile</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <link rel = "stylesheet" href = "css/mian.css">
+
+    <script src="https://code.jquery.com/jquery-2.2.2.js" integrity="sha256-4/zUCqiq0kqxhZIyp4G0Gk+AOtCJsY1TA00k5ClsZYE="  crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"  integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/angularjs/1.5.0/angular.min.js" ></script>
+
+    <script src="http://cdn.jsdelivr.net/webjars/angularjs/1.5.0/angular-sanitize.min.js" ></script>
+
+    <script src ="js/main.js"></script>
+
+
+
+</head>
+<body ng-app = "mainApp" ng-cloak>
+
+<div class = "main" ng-controller = "mainCtrl">
+
+    <div class = "table_div_pareent">
+        <h1>Datas to server</h1>
+
+        <div class = "add_input_div">
+            <button type = "button" class = "add_button" ng-click = "add_request()"> ADD</button>
+        </div>
+
+        <div style = "clear: both"></div>
+
+        <table ng-table class = "table_main_request"  cellpadding="0" cellspacing="0"    >
+            <thead class = "th_tr">
+            <!--ng-click="updateSelection($event, item.id, 'all')"-->
+            <th><input type = "checkbox" ng-click="updateSelection($event, '' , 'all')" ng-model ="checked.checked_all"></th>
+            <th>URL</th>
+            <th>Method</th>
+            <th>Type</th>
+            <th>Async</th>
+            <th style="width: 350px">Datas</th>
+            <th>Success</th>
+            <th>Status Text</th>
+            </thead>
+
+            <tr ng-repeat = "data in datas  "     >
+                <td ><input type = "checkbox" ng-click="updateSelection($event, $index)" ng-checked="checked.checked_all"></td>
+                <td><input type = "text" ng-model="inputObj[$index]['url_'+$index]" ng-init=" inputObj[$index]['url_'+$index] = data.url;inputObj[$index]['id'] = $index "       /></td>
+                <td><input type = "text" ng-model="inputObj[$index]['method_'+$index]"  ng-init="inputObj[$index]['method_'+$index] = data.method"  /></td>
+                <td><input type = "text" ng-model="inputObj[$index]['type_'+$index]"  ng-init="inputObj[$index]['type_'+$index] = data.type" /></td>
+                <td><input type = "text" ng-model="inputObj[$index]['async_'+$index]"   ng-init="inputObj[$index]['async_'+$index] = data.async" /></td>
+                <td >
+                    <div class = "datas_div inputs_div_{{$index}}"  >
+                        <p ng-repeat = "(key, value) in data.data track by $index "  >
+                            <input type = "text" ng-model="inputObj[$parent.$index].data[$index]['key']" ng-init="inputObj[ $parent.$index].data[$index]['key'] = key"/>
+                            <span>  : </span>
+                            <input type = "text" ng-model="inputObj[$parent.$index].data[$index]['value']" ng-init="inputObj[ $parent.$index].data[$index]['value'] = value"/>
+                        </p>
+                        <button class="add_input" ng-click="addFields($event, $index)">add more fields</button>
+                    </div>
+                </td>
+                <td>
+                    {{status [$index]}}
+                </td>
+                <td>
+                    {{statusText [$index]}}
+                    <br/>
+                    <span class="see_more"  ng-click="seeResponse($index)" ng-show="statusText [$index]" ng-class="{'red':(statusText [$index]!='OK')}">see more</span>
+                </td>
+
+
+
+            </tr>
+        </table>
+
+
+        <div class = "butons_div">
+
+            <div class = "request_count">
+                <label for = "count" class = "label_count">
+                    Request Count
+                    <input id = "count"  ng-model="requestCount"  ng-init="requestCount = 1" type = "number" >
+                </label>
+            </div>
+            <div class = "submit_input_div" id="karen">
+                <button type = "button" class = "submit_button" ng-click = "send_request()"> SUBMIT</button>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+</body>
+</html>

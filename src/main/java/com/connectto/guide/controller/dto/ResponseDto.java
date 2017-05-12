@@ -1,11 +1,13 @@
 package com.connectto.guide.controller.dto;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class ResponseDto implements Serializable {
 
     private ResponseStatus status;
@@ -84,5 +86,16 @@ public class ResponseDto implements Serializable {
 
     public void setResponse(Map<String, Object> response) {
         this.response = response;
+    }
+
+    @Override
+    public String toString() {
+        return "ResponseDto{" +
+                "status=" + status +
+                ", actionerror='" + actionerror + '\'' +
+                ", actionmessage='" + actionmessage + '\'' +
+                ", fielderrors=" + fielderrors +
+                ", response=" + response +
+                '}';
     }
 }

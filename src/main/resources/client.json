@@ -1,0 +1,55 @@
+{
+  "actions": [
+
+      {
+        "url": "/m-iptv-languages",
+        "headers":[{"Authorization": "Basic GSI4N4165R4DGPOPQVBZ0L6MBVG37E5Z"}],/*if undifined get default header. see client.js*/
+		"data": "",
+        "type": "json",
+        "method": "post",
+        "async": "true"
+      },
+
+
+      {
+        "url": "data2.json",
+		"headers": "",
+        "data": {
+          "key1": "val2",
+          "key2": "val2"
+        },
+        "type": "json",
+        "method": "post",
+        "async": "true"
+      },
+
+
+      {
+        "url": "data3.json",
+        "data": {
+          "field3": "fName3",
+          "value3.1": "defaultValur3.1",
+          "field3.2": "fName3.2",
+          "value3.3": "defaultValur3.3"
+        },
+        "type": "json",
+        "method": "get",
+        "async": "true"
+      },
+
+
+      {
+        "url": "data4.json",
+        "data": {
+          "field4": "fName4",
+          "value4.1": "defaultValur4.1",
+          "field4.2": "fName4.2",
+          "value4.3": "defaultValur4.3"
+        },
+        "type": "json",
+        "method": "get",
+        "async": "true"
+      }
+
+  ]
+}
