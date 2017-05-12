@@ -1,20 +1,17 @@
 package com.connectto.guide.service.impl;
 
 import com.connectto.guide.common.exception.InternalErrorException;
-import com.connectto.guide.common.util.CollectionHelper;
 import com.connectto.guide.common.util.QueryConstant;
 import com.connectto.guide.common.util.QueryParam;
-import com.connectto.guide.entity.Channel;
-import com.connectto.guide.entity.ChannelCategory;
 import com.connectto.guide.entity.IPTVLanguage;
-import com.connectto.guide.entity.XmlFilesUpdate;
-import com.connectto.guide.repository.*;
+import com.connectto.guide.repository.IPTVLanguageRepository;
 import com.connectto.guide.service.IPTVLanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Seryozha Hovhaniisyan on 2015-02-09 16:36:41.

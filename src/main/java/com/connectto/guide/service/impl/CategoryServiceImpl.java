@@ -5,7 +5,6 @@ import com.connectto.guide.common.util.QueryConstant;
 import com.connectto.guide.common.util.QueryParam;
 import com.connectto.guide.entity.ChannelCategory;
 import com.connectto.guide.repository.CategoryRepository;
-import com.connectto.guide.repository.ContainerCustomRepository;
 import com.connectto.guide.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

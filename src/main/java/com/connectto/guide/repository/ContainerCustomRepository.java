@@ -1,9 +1,7 @@
 package com.connectto.guide.repository;
 
 import com.connectto.guide.common.exception.InternalErrorException;
-import com.connectto.guide.common.util.QueryConstant;
 import com.connectto.guide.common.util.QueryParam;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;

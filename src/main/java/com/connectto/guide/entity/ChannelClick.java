@@ -1,7 +1,7 @@
 package com.connectto.guide.entity;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 /**
  * Created by htdev001 on 2/5/15.
  */

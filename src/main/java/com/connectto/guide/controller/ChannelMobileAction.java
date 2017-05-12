@@ -2,7 +2,6 @@ package com.connectto.guide.controller;
 
 import com.connectto.guide.common.exception.DataParseException;
 import com.connectto.guide.common.exception.InternalErrorException;
-import com.connectto.guide.common.util.CollectionHelper;
 import com.connectto.guide.common.util.DataConverter;
 import com.connectto.guide.common.util.StringHelper;
 import com.connectto.guide.controller.dto.ResponseDto;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

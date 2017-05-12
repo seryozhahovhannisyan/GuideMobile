@@ -1,7 +1,6 @@
 package com.connectto.guide.repository;
 
 import com.connectto.guide.common.exception.InternalErrorException;
-import com.connectto.guide.common.util.QueryConstant;
 import com.connectto.guide.common.util.QueryParam;
 import com.connectto.guide.common.util.QueryUtil;
 import com.connectto.guide.entity.Channel;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 

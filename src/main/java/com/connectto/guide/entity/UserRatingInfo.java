@@ -1,8 +1,8 @@
 package com.connectto.guide.entity;
 
-import javax.persistence.*;
 import com.connectto.guide.common.util.StringHelper;
 
+import javax.persistence.*;
 import java.util.Properties;
 
 @Entity
