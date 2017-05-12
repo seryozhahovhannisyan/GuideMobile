@@ -25,7 +25,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/seryozhahovhannisyan/JSONWebTokens.git</connection>
-		<url>hhttps://github.com/seryozhahovhannisyan/JSONWebTokens.git</url>
+		<url>https://github.com/seryozhahovhannisyan/JSONWebTokens.git</url>
 		<developerConnection>scm:git:git@github.com/seryozhahovhannisyan/JSONWebTokens.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>

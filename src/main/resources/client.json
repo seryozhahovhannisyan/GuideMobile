@@ -6,7 +6,7 @@
         "headers":[{"Authorization": "Basic GSI4N4165R4DGPOPQVBZ0L6MBVG37E5Z"}],/*if undifined get default header. see client.js*/
 		"data": "",
         "type": "json",
-        "method": "post",
+        "method": "get",
         "async": "true"
       },
 
