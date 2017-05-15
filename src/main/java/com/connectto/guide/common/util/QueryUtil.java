@@ -29,7 +29,7 @@ public class QueryUtil {
     public static StringBuilder buildIPTVChannel(String expr, Map<String, Object> params) {
 
         String partitionId = params.get("partitionId").toString();
-        StringBuilder queryBuilder = new StringBuilder(String.format("select %s FROM iptv_channels c WHERE c.deleted = 0", expr));
+        StringBuilder queryBuilder = new StringBuilder(String.format("select %s FROM v_iptv_channels c WHERE c.deleted = 0", expr));
         queryBuilder.append(" and (SELECT id FROM iptv_channel_country_timezone WHERE id = ( SELECT timezone_id FROM iptv_servers WHERE server_id = nvr_server_id ) ) IS NOT NULL")
                 .append(String.format(" and (c.partition_id = %s OR c.channel_id IN ( SELECT ac.channel_id FROM iptv_accepted_channels ac  WHERE ac.partition_id = %s) )", partitionId, partitionId));
 

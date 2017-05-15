@@ -34,6 +34,14 @@ public class XmlTv {
 
     @Column(name = "icon")
     private String icon;
+    // Escape  in dto
+    @Column(name = "xmltv_channel_id")
+    private Long xmltvChannelId;
+
+    @Column(name = "xml_type")
+    private int xmlType;
+
+
 
     /*##################################################################################################################
      *                                  GETTERS & SETTERS
@@ -44,71 +52,79 @@ public class XmlTv {
         return id;
     }
 
-    public XmlTv setId(long id) {
+    public void setId(long id) {
         this.id = id;
-        return this;
     }
 
     public String getChannel() {
         return channel;
     }
 
-    public XmlTv setChannel(String channel) {
+    public void setChannel(String channel) {
         this.channel = channel;
-        return this;
     }
 
     public Date getStartTime() {
         return startTime;
     }
 
-    public XmlTv setStartTime(Date startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
-        return this;
     }
 
     public Date getStopTime() {
         return stopTime;
     }
 
-    public XmlTv setStopTime(Date stopTime) {
+    public void setStopTime(Date stopTime) {
         this.stopTime = stopTime;
-        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public XmlTv setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
-        return this;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public XmlTv setCategory(String category) {
+    public void setCategory(String category) {
         this.category = category;
-        return this;
     }
 
     public String getRating() {
         return rating;
     }
 
-    public XmlTv setRating(String rating) {
+    public void setRating(String rating) {
         this.rating = rating;
-        return this;
     }
 
     public String getIcon() {
         return icon;
     }
 
-    public XmlTv setIcon(String icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
-        return this;
+    }
+
+    public Long getXmltvChannelId() {
+        return xmltvChannelId;
+    }
+
+    public void setXmltvChannelId(Long xmltvChannelId) {
+        this.xmltvChannelId = xmltvChannelId;
+    }
+
+    public int getXmlType() {
+        return xmlType;
+    }
+
+    public void setXmlType(int xmlType) {
+        this.xmlType = xmlType;
     }
 }

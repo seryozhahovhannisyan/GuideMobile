@@ -2,18 +2,18 @@ package com.connectto.guide.service.impl;
 
 import com.connectto.guide.common.exception.InternalErrorException;
 import com.connectto.guide.common.util.DataConverter;
-import com.connectto.guide.common.util.QueryConstant;
-import com.connectto.guide.common.util.QueryParam;
 import com.connectto.guide.common.util.QueryUtil;
 import com.connectto.guide.entity.Channel;
+import com.connectto.guide.entity.FavoriteBlock;
+import com.connectto.guide.repository.ChannelRepository;
 import com.connectto.guide.repository.ContainerCustomRepository;
+import com.connectto.guide.repository.FavoriteBlockRepository;
 import com.connectto.guide.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +26,13 @@ import java.util.Map;
 public class ChannelServiceImpl implements ChannelService {
 
     @Autowired
-    private ContainerCustomRepository  repository;
+    private ChannelRepository channelRepository;
+
+    @Autowired
+    private FavoriteBlockRepository favoriteBlockRepository;
+
+    @Autowired
+    private ContainerCustomRepository repository;
 
 
     @Override
@@ -36,10 +42,10 @@ public class ChannelServiceImpl implements ChannelService {
         StringBuilder queryBuilder = QueryUtil.buildIPTVChannel("count(c.channel_id)", params);
 
         try {
-            Long newIptvChannelsCount = (Long)repository.getCountByParams(queryBuilder.toString());
+            Long newIptvChannelsCount = (Long) repository.getCountByParams(queryBuilder.toString());
             if (params.containsKey("channelUpdateDate")) {
                 queryBuilder = QueryUtil.buildIPTVFavoriteBlock("count(ifb.channel_id)", params);
-                newIptvChannelsCount += (Long)repository.getCountByParams(queryBuilder.toString());
+                newIptvChannelsCount += (Long) repository.getCountByParams(queryBuilder.toString());
             }
 
             return newIptvChannelsCount;
@@ -55,12 +61,12 @@ public class ChannelServiceImpl implements ChannelService {
             StringBuilder queryBuilder = QueryUtil.buildIPTVChannel("c.channel_id", params);
             queryBuilder.append("order by c.channel_number");
 
-            ides.addAll((List<Long>)repository.getIdesByParams(queryBuilder.toString()));
+            ides.addAll((List<Long>) repository.getIdesByParams(queryBuilder.toString()));
 
             if (params.containsKey("channelUpdateDate")) {
                 queryBuilder = QueryUtil.buildIPTVFavoriteBlock("ifb.channel_id", params);
-                queryBuilder.append(String.format(" and ifb.channel_id not in (%s)", DataConverter.join(ides,",")));
-                ides.addAll( (List<Long>)repository.getIdesByParams(queryBuilder.toString())) ;
+                queryBuilder.append(String.format(" and ifb.channel_id not in (%s)", DataConverter.join(ides, ",")));
+                ides.addAll((List<Long>) repository.getIdesByParams(queryBuilder.toString()));
             }
 
             return ides;
@@ -70,20 +76,12 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Channel getByChannelId(Map<String, Object> params) throws InternalErrorException {
-
-        String partitionId = params.get("partitionId").toString();
-
-        List<QueryParam> queryParams = new LinkedList<>();
-        queryParams.add(new QueryParam("ifb.partition_id", partitionId, QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("ifb.user_id", params.get("userId").toString(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("c.deleted", 0, QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("c.channel_id", params.get("channelId").toString(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("c.partition_id", partitionId, QueryConstant.EQUAL));
-
-
+    public Channel getByChannelId(Long channelId, Long userId ) throws InternalErrorException {
         try {
-            return (Channel)repository.getByParams("c.*", "iptv_channels c", queryParams, null);
+            Channel channel = channelRepository.findOne(channelId);
+            List<FavoriteBlock> favoriteBlock = favoriteBlockRepository.getByUserIdAndChannelId(userId, channelId);
+//            channel.setFavoriteBlock(favoriteBlock);
+            return channel ;
         } catch (RuntimeException e) {
             throw new InternalErrorException(e);
         }

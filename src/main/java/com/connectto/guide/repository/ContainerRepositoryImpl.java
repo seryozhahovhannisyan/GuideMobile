@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -63,9 +64,9 @@ public class ContainerRepositoryImpl  implements ContainerCustomRepository<Chann
         try {
             String queryString = QueryUtil.buildCountQuery(id, table, queryParams);
             Query query = em.createNativeQuery(queryString);
-//            BigInteger count = (BigInteger) query.getSingleResult();
-//            return count == null ? 0l :  count.longValue();
-            return (Long)query.getSingleResult();
+            BigInteger count = (BigInteger) query.getSingleResult();
+            return count == null ? 0l :  count.longValue();
+//            return (Long)query.getSingleResult();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new InternalErrorException(e);
@@ -76,9 +77,9 @@ public class ContainerRepositoryImpl  implements ContainerCustomRepository<Chann
     public Long getCountByParams(String queryString) throws InternalErrorException {
         try {
             Query query = em.createNativeQuery(queryString);
-//            BigInteger count = (BigInteger) query.getSingleResult();
-//            return count == null ? 0 : count.longValue();
-            return (Long)query.getSingleResult();
+            BigInteger count = (BigInteger) query.getSingleResult();
+            return count == null ? 0 : count.longValue();
+//            return query.getSingleResult().longValue;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new InternalErrorException(e);

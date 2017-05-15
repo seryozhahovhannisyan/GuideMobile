@@ -10,25 +10,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
 public class XmlTvServiceImpl implements XmlTvService {
 
-//    @Autowired
-//    private IChannelCustomRepository channelDao;
-
     @Autowired
-    private XmlTvRepository xmlTvDao;
+    private XmlTvRepository repository;
 
     @Autowired
     private XmlFilesUpdateRepository xmlFilesUpdateDao;
 
     @Override
-    public XmlTv getById(long id) throws InternalErrorException, DataNotFoundException {
+    public XmlTv getBy (long id) throws InternalErrorException, DataNotFoundException {
         try {
-            XmlTv xmlTv =xmlTvDao.findOne(id);
+            XmlTv xmlTv = repository.findOne(id);
             if (xmlTv == null) {
                 throw new DataNotFoundException("Could not found xmlTv by id; id = " + xmlTv);
             }
@@ -39,29 +39,16 @@ public class XmlTvServiceImpl implements XmlTvService {
     }
 
     @Override
-    public List<XmlTv> getByParamsForMobile(Map<String, Object> params) throws InternalErrorException {
+    public List<XmlTv> getBy(Long xmltvChannelId, Date startTime, Date stopTime) throws InternalErrorException {
 
         List<XmlTv> xmlTvs = null;
 
         try {
-            //start
-            Integer xml_channel_id = (Integer) params.get("xml_channel_id");
-            List<Integer> channelIdes = new ArrayList<Integer>();
-            Integer channelId = null;//channelDao.getChannelIdByXMLTVChannelId(xml_channel_id);
-            if (channelId != null && channelId > 0) {
-                channelIdes.add(channelId);
-                params.put("channelIdes", channelIdes);
 
-                Date periodStart = (Date) params.get("periodStart");
-                Date periodEnd = (Date) params.get("periodEnd");
+            startTime = startTime == null ? startWeek() : startTime;
+            stopTime = stopTime == null ? endWeek() : stopTime;
 
-                periodStart = periodStart == null ? startWeek() : periodStart;
-                periodEnd = periodEnd == null ? endWeek() : periodEnd;
-
-                params.put("periodStart", periodStart);
-                params.put("periodEnd", periodEnd);
-                //xmlTvs = xmlTvDao.getByParamsMobile(params);
-            }
+            xmlTvs = repository.xmltvChannelId(xmltvChannelId, startTime, stopTime);
 
             return xmlTvs;
         } catch (Exception e) {

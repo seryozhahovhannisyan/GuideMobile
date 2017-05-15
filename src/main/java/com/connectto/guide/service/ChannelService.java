@@ -13,11 +13,10 @@ import java.util.Map;
 
 public interface ChannelService {
 
-    public Channel getByChannelId(Map<String, Object> params) throws InternalErrorException;
+    public Channel getByChannelId(Long channelId, Long userId ) throws InternalErrorException;
 
-    public Long getCountByParams(Map<String, Object> params) throws InternalErrorException;//
+    public Long getCountByParams(Map<String, Object> params) throws InternalErrorException;
 
     public List<Long> getIdesByParams(Map<String, Object> params) throws InternalErrorException;
-
 
 }

@@ -1,9 +1,10 @@
 package com.connectto.guide.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "iptv_channels")
+@Table(name = "v_iptv_channels")
 public class Channel {
 
     @Id
@@ -47,8 +48,8 @@ public class Channel {
     @Column(name = "xml_channel_id")
     private int xmlChannelId;
 
-    @Column(name = "timezone")
-    private String timezone;//-08
+//    @Column(name = "timezone")
+//    private String timezone;//-08
 
     @Column(name = "rating_val")
     private String ipTVRatingVal;
@@ -67,12 +68,24 @@ public class Channel {
     @JoinColumn(name = "timezoneId")
     private IPTVChannelCountryTimezone countryTimezone;//
 
-    @ManyToOne
-    @JoinColumn(name = "fb_id")
-    private FavoriteBlock favoriteBlock;//
 
-//    @OneToMany(mappedBy="process", cascade = CascadeType.ALL)
-//    private List<XmlTv> xmlTvs;
+
+    @Column(name = "updated")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
+    @Column(name = "deleted")
+    private int deleted;
+
+    @Column(name = "partition_id")
+    private int partitionId;
+
+    @Column(name = "nvr_server_id")
+    private int nvrServerId;
+
+
+
+//    private FavoriteBlock favoriteBlock;//
 
 
     /*##################################################################################################################
@@ -92,179 +105,175 @@ public class Channel {
         return number;
     }
 
-    public Channel setNumber(String number) {
+    public void setNumber(String number) {
         this.number = number;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public Channel setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public String getDsc() {
         return dsc;
     }
 
-    public Channel setDsc(String dsc) {
+    public void setDsc(String dsc) {
         this.dsc = dsc;
-        return this;
     }
 
     public String getDvrDepth() {
         return dvrDepth;
     }
 
-    public Channel setDvrDepth(String dvrDepth) {
+    public void setDvrDepth(String dvrDepth) {
         this.dvrDepth = dvrDepth;
-        return this;
     }
 
     public String getRecording() {
         return recording;
     }
 
-    public Channel setRecording(String recording) {
+    public void setRecording(String recording) {
         this.recording = recording;
-        return this;
     }
 
     public String getTimeShift() {
         return timeShift;
     }
 
-    public Channel setTimeShift(String timeShift) {
+    public void setTimeShift(String timeShift) {
         this.timeShift = timeShift;
-        return this;
     }
 
     public String getLogo() {
         return logo;
     }
 
-    public Channel setLogo(String logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
-        return this;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public Channel setCategory(String category) {
+    public void setCategory(String category) {
         this.category = category;
-        return this;
     }
 
     public String getMulticastUrl() {
         return multicastUrl;
     }
 
-    public Channel setMulticastUrl(String multicastUrl) {
+    public void setMulticastUrl(String multicastUrl) {
         this.multicastUrl = multicastUrl;
-        return this;
     }
 
     public String getNvrViewUrl() {
         return nvrViewUrl;
     }
 
-    public Channel setNvrViewUrl(String nvrViewUrl) {
+    public void setNvrViewUrl(String nvrViewUrl) {
         this.nvrViewUrl = nvrViewUrl;
-        return this;
     }
 
     public String getUnicastUrl() {
         return unicastUrl;
     }
 
-    public Channel setUnicastUrl(String unicastUrl) {
+    public void setUnicastUrl(String unicastUrl) {
         this.unicastUrl = unicastUrl;
-        return this;
     }
 
     public int getXmlChannelId() {
         return xmlChannelId;
     }
 
-    public Channel setXmlChannelId(int xmlChannelId) {
+    public void setXmlChannelId(int xmlChannelId) {
         this.xmlChannelId = xmlChannelId;
-        return this;
     }
 
-    public String getTimezone() {
+    /*public String getTimezone() {
         return timezone;
     }
 
-    public Channel setTimezone(String timezone) {
+    public void setTimezone(String timezone) {
         this.timezone = timezone;
-        return this;
-    }
+    }*/
 
     public String getIpTVRatingVal() {
         return ipTVRatingVal;
     }
 
-    public Channel setIpTVRatingVal(String ipTVRatingVal) {
+    public void setIpTVRatingVal(String ipTVRatingVal) {
         this.ipTVRatingVal = ipTVRatingVal;
-        return this;
     }
 
     public String getDefaultLanguageId() {
         return defaultLanguageId;
     }
 
-    public Channel setDefaultLanguageId(String defaultLanguageId) {
+    public void setDefaultLanguageId(String defaultLanguageId) {
         this.defaultLanguageId = defaultLanguageId;
-        return this;
     }
 
     public int getClickCount() {
         return clickCount;
     }
 
-    public Channel setClickCount(int clickCount) {
+    public void setClickCount(int clickCount) {
         this.clickCount = clickCount;
-        return this;
     }
 
     public IPTVChannelCountryTimezone getChannelTimezone() {
         return channelTimezone;
     }
 
-    public Channel setChannelTimezone(IPTVChannelCountryTimezone channelTimezone) {
+    public void setChannelTimezone(IPTVChannelCountryTimezone channelTimezone) {
         this.channelTimezone = channelTimezone;
-        return this;
     }
 
     public IPTVChannelCountryTimezone getCountryTimezone() {
         return countryTimezone;
     }
 
-    public Channel setCountryTimezone(IPTVChannelCountryTimezone countryTimezone) {
+    public void setCountryTimezone(IPTVChannelCountryTimezone countryTimezone) {
         this.countryTimezone = countryTimezone;
-        return this;
     }
 
-    public FavoriteBlock getFavoriteBlock() {
-        return favoriteBlock;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public Channel setFavoriteBlock(FavoriteBlock favoriteBlock) {
-        this.favoriteBlock = favoriteBlock;
-        return this;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    /*public List<XmlTv> getXmlTvs() {
-        return xmlTvs;
+    public int getDeleted() {
+        return deleted;
     }
 
-    public Channel setXmlTvs(List<XmlTv> xmlTvs) {
-        this.xmlTvs = xmlTvs;
-        return this;
-    }*/
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
+    public int getPartitionId() {
+        return partitionId;
+    }
+
+    public void setPartitionId(int partitionId) {
+        this.partitionId = partitionId;
+    }
+
+    public int getNvrServerId() {
+        return nvrServerId;
+    }
+
+    public void setNvrServerId(int nvrServerId) {
+        this.nvrServerId = nvrServerId;
+    }
 }

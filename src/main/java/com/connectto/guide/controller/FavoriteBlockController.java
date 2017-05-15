@@ -39,7 +39,7 @@ public class FavoriteBlockController {
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
-            responseDto.setActionerror("Invalid sessionId");
+            responseDto.setActionerror("No authorized user found");
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
             return responseDto;
         }
@@ -88,7 +88,7 @@ public class FavoriteBlockController {
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
-            responseDto.setActionerror("Invalid sessionId");
+            responseDto.setActionerror("No authorized user found");
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
             return responseDto;
         }
@@ -135,10 +135,12 @@ public class FavoriteBlockController {
     public ResponseDto block(@PathVariable(value = "channelId") String channelId,
                              @RequestBody  String blockPassword) {
 
+        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
-            responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
+            responseDto.setActionerror("No authorized user found");
+            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
             return responseDto;
         }
 
@@ -186,10 +188,12 @@ public class FavoriteBlockController {
     public ResponseDto unblock(@PathVariable(value = "channelId") String channelId,
                              @RequestBody  String blockPassword) {
 
+        responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
         if (user == null) {
-            responseDto.setStatus(ResponseStatus.INVALID_PARAMETER);
+            responseDto.setActionerror("No authorized user found");
+            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
             return responseDto;
         }
 

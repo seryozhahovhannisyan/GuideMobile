@@ -2,6 +2,8 @@ package com.connectto.guide.client;
 
 import com.connectto.guide.controller.dto.ResponseDto;
 import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
@@ -87,6 +89,50 @@ public class Client {
         System.out.println(dto);
     }
 
+    private static void channel(Long channelId) {
+        System.out.println("\nTesting channel API----------");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Object> request = new HttpEntity<Object>(  getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL + "/"+channelId, HttpMethod.GET, request, ResponseDto.class);
+        ResponseDto dto = response.getBody();
+        System.out.println(dto);
+    }
+
+    private static void channelCount() {
+
+        String state = "";
+        String body = "{\"statename\":\"" + state + "\"}";
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("existsChannelIdes", "123");
+        map.add("channelUpdateDate", "456");
+
+        System.out.println("\nTesting channel API----------");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL_COUNT , HttpMethod.GET, request, ResponseDto.class);
+        ResponseDto dto = response.getBody();
+        System.out.println(dto);
+    }
+
+    private static void channelIdes() {
+        System.out.println("\nTesting channel API----------");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Object> request = new HttpEntity<Object>( getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL_IDES , HttpMethod.GET, request, ResponseDto.class);
+        ResponseDto dto = response.getBody();
+        System.out.println(dto);
+    }
+
+    private static void xmlTv(Long channelId) {
+        System.out.println("\nTesting URL_XML_TV API----------");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Object> request = new HttpEntity<Object>( getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_XML_TV + "/"+channelId , HttpMethod.GET, request, ResponseDto.class);
+        ResponseDto dto = response.getBody();
+        System.out.println(dto);
+    }
+
     public static synchronized String blockHttpURLConnection() {
         URL url;
         HttpURLConnection urlConn = null;
@@ -157,7 +203,7 @@ public class Client {
     }
 
     public static void main(String args[]) {
-        mobileIPTVLanguages();
+//        mobileIPTVLanguages();
 //        mobileChannelCategories();
 //
 //        favorite();
@@ -165,6 +211,13 @@ public class Client {
 //        block();
 //        unblock();
 //        blockHttpURLConnection();
+        String ides = "118,105,107,108,144,53,54,55,104,117,119,120,124,125,239,224,154,174,169,209,234,115,164,229,149,214,219,204,199,244,134,129,139,249,32,11,14,27,28,13,43,47,25,29,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,33,77,79,80,81,82,34,37,38,39,83,40,41,42,44,45,46,48,51,84,85,86,87,88,89,90,91,92,93,24,94,95,96,97,98,99,100,101,127,102,103,36";
+//        channel(118L);
+//        channelCount();
+//        channelIdes();
+        for(String id : ides.split(",")){
+            xmlTv(Long.parseLong(id));
+        }
 
     }
 }

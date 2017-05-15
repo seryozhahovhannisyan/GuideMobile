@@ -18,6 +18,13 @@ public interface ClientConstant {
     public static final String URL_UN_FAVORITE = "/unfavorite";
     public static final String URL_BLOCK = "/block";
     public static final String URL_UN_BLOCK = "/unblock";
+    //
+    public static final String URL_CHANNEL = "/channel";
+    public static final String URL_CHANNEL_COUNT = "/channel-count";
+    public static final String URL_CHANNEL_IDES = "/channel-ides";
+    public static final String URL_XML_TV = "/schedules";
+
+
 
 
 

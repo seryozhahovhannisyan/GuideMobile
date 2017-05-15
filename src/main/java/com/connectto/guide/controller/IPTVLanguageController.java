@@ -5,6 +5,7 @@ import com.connectto.guide.common.exception.InternalErrorException;
 import com.connectto.guide.controller.dto.ResponseDto;
 import com.connectto.guide.controller.dto.ResponseStatus;
 import com.connectto.guide.entity.IPTVLanguage;
+import com.connectto.guide.entity.User;
 import com.connectto.guide.service.IPTVLanguageService;
 import com.connectto.guide.service.util.ServiceHelper;
 import org.apache.log4j.Logger;
@@ -37,13 +38,15 @@ public class IPTVLanguageController {
         } else if (device.isMobile()) {
         }*/
 
-        int partitionId = ServiceHelper.getAuthenticatedUser().getPartitionId();
+        User user = ServiceHelper.getAuthenticatedUser();
 
-        if (partitionId == 0) {
-            responseDto.setActionerror("Invalid sessionId");
+        if (user == null || user.getPartitionId() == 0) {
+            responseDto.setActionerror("No authorized user found");
             responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
             return responseDto;
         }
+
+        int partitionId = user.getPartitionId();
 
         try {
             List<IPTVLanguage> iptvLanguages = service.getIPTVLanguages(partitionId);
