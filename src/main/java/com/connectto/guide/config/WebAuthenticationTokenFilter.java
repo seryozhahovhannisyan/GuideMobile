@@ -47,7 +47,7 @@ public class WebAuthenticationTokenFilter extends OncePerRequestFilter {
                     logger.info("authenticated user " + username + ", setting security context");
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            } catch (Exception e){
+            } catch (RuntimeException e){
                 logger.error(e);
             }
 

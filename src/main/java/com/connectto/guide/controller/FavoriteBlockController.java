@@ -50,14 +50,9 @@ public class FavoriteBlockController {
             return responseDto;
         }
 
-        int partitionId = user.getPartitionId();
         long userId = user.getId();
 
-        Date currentDate = new Date(System.currentTimeMillis());
-
         FavoriteBlock favoriteBlock = new FavoriteBlock();
-        favoriteBlock.setFavoriteDateTime(currentDate);
-        favoriteBlock.setPartitionId(partitionId);
         favoriteBlock.setUserId(userId);
         favoriteBlock.setFavorite(1);
 
@@ -104,14 +99,9 @@ public class FavoriteBlockController {
             return responseDto;
         }
 
-        int partitionId = user.getPartitionId();
         long userId = user.getId();
 
-        Date currentDate = new Date(System.currentTimeMillis());
-
         FavoriteBlock favoriteBlock = new FavoriteBlock();
-        favoriteBlock.setFavoriteDateTime(currentDate);
-        favoriteBlock.setPartitionId(partitionId);
         favoriteBlock.setUserId(userId);
         favoriteBlock.setFavorite(0);
 
@@ -141,9 +131,9 @@ public class FavoriteBlockController {
     }
 
 
-    @RequestMapping(path = "/m-block-channel", method = RequestMethod.GET)
-    public ResponseDto block(@RequestParam("channel_id") String channel_id,
-                             @RequestParam("blockPassword") String blockPassword) {
+    @RequestMapping(path = "/block/{channelId}", method = RequestMethod.POST)
+    public ResponseDto block(@PathVariable(value = "channelId") String channelId,
+                             @RequestBody  String blockPassword) {
 
         User user = ServiceHelper.getAuthenticatedUser();
 
@@ -152,36 +142,33 @@ public class FavoriteBlockController {
             return responseDto;
         }
 
-        int partitionId = user.getPartitionId();
         long userId = user.getId();
 
         if (StringHelper.isBlank(blockPassword)) {
             blockPassword = blockDefaultPassword;
         }
-        Date currentDate = new Date(System.currentTimeMillis());
 
         FavoriteBlock favoriteBlock = new FavoriteBlock();
-        favoriteBlock.setBlockDateTime(currentDate);
-        favoriteBlock.setPartitionId(partitionId);
         favoriteBlock.setUserId(userId);
         favoriteBlock.setBlock(1);
         favoriteBlock.setBlockPassword(blockPassword);
 
         try {
 
-            Long channelId = Long.parseLong(channel_id);
-            favoriteBlock.setChannelId(channelId);
+            favoriteBlock.setChannelId(Long.parseLong(channelId));
 
             service.block(favoriteBlock);
             responseDto.setStatus(ResponseStatus.SUCCESS);
             responseDto.setActionmessage("Channel blocked successfully");
 
-        }  catch (DataNotFoundException e) {
+        }  catch (PermissionDeniedException e) {
             logger.error(e);
-            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
-        } catch (PermissionDeniedException e) {
-            logger.error(e);
+            responseDto.setActionerror(e.getMessage());
             responseDto.setStatus(ResponseStatus.PERMISSION_DENIED);
+        } catch (DataNotFoundException e) {
+            logger.error(e);
+            responseDto.setActionerror(e.getMessage());
+            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
         } catch (NumberFormatException e) {
             logger.error(e);
             responseDto.setActionerror("Incorrect incoming channelId");
@@ -195,9 +182,9 @@ public class FavoriteBlockController {
         return responseDto;
     }
 
-    @RequestMapping(path = "/m-unblock-channel", method = RequestMethod.GET)
-    public ResponseDto unBlock(@RequestParam("channel_id") String channel_id,
-                               @RequestParam("blockPassword") String blockPassword) {
+    @RequestMapping(path = "/unblock/{channelId}", method = RequestMethod.POST)
+    public ResponseDto unblock(@PathVariable(value = "channelId") String channelId,
+                             @RequestBody  String blockPassword) {
 
         User user = ServiceHelper.getAuthenticatedUser();
 
@@ -206,7 +193,6 @@ public class FavoriteBlockController {
             return responseDto;
         }
 
-        int partitionId = user.getPartitionId();
         long userId = user.getId();
 
         if (StringHelper.isBlank(blockPassword)) {
@@ -215,30 +201,27 @@ public class FavoriteBlockController {
             return responseDto;
         }
 
-        Date currentDate = new Date(System.currentTimeMillis());
-
         FavoriteBlock favoriteBlock = new FavoriteBlock();
-        favoriteBlock.setBlockDateTime(currentDate);
-        favoriteBlock.setPartitionId(partitionId);
         favoriteBlock.setUserId(userId);
         favoriteBlock.setBlock(0);
         favoriteBlock.setBlockPassword(blockPassword);
 
         try {
 
-            Long channelId = Long.parseLong(channel_id);
-            favoriteBlock.setChannelId(channelId);
+            favoriteBlock.setChannelId(Long.parseLong(channelId));
 
             service.unblock(favoriteBlock);
             responseDto.setActionmessage("Channel unblocked successfully");
             responseDto.setStatus(ResponseStatus.SUCCESS);
 
-        }  catch (DataNotFoundException e) {
+        }  catch (PermissionDeniedException e) {
             logger.error(e);
-            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
-        } catch (PermissionDeniedException e) {
-            logger.error(e);
+            responseDto.setActionerror(e.getMessage());
             responseDto.setStatus(ResponseStatus.PERMISSION_DENIED);
+        } catch (DataNotFoundException e) {
+            logger.error(e);
+            responseDto.setActionerror(e.getMessage());
+            responseDto.setStatus(ResponseStatus.RESOURCE_NOT_FOUND);
         } catch (NumberFormatException e) {
             logger.error(e);
             responseDto.setActionerror("Incorrect incoming channelId");

@@ -33,12 +33,15 @@ public class UserRepositoryImpl implements UserRepository {
             return convert(query.getSingleResult());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            throw new InternalErrorException(e);
+            throw new InternalErrorException("No authorized user found for "+ sessionId);
         }
     }
 
-    private User convert(Object object) throws ObjectConvertException {
+    private User convert(Object object) throws ObjectConvertException, NullPointerException {
 
+        if(object == null){
+            throw new NullPointerException("No authorized user found");
+        }
         try {
             Object[] columns = (Object[]) object;
             Long id = ((Integer) columns[0]).longValue();

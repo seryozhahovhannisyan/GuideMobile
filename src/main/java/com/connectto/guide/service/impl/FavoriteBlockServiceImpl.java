@@ -35,12 +35,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void favorite(FavoriteBlock favoriteBlock) throws InternalErrorException, DataNotFoundException {
-        long channelId = favoriteBlock.getChannelId();
 
-        List<QueryParam> queryParams = new LinkedList<>();
-        queryParams.add(new QueryParam("partition_id", favoriteBlock.getPartitionId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("user_id", favoriteBlock.getUserId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("channel_id", channelId, QueryConstant.EQUAL));
+        long channelId = favoriteBlock.getChannelId();
 
         try {
 
@@ -69,11 +65,6 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
 
         long channelId = favoriteBlock.getChannelId();
 
-        List<QueryParam> queryParams = new LinkedList<>();
-        queryParams.add(new QueryParam("partition_id", favoriteBlock.getPartitionId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("user_id", favoriteBlock.getUserId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("channel_id", channelId, QueryConstant.EQUAL));
-
         try {
 
             long count = channelRepository.countByChannelId(channelId);
@@ -100,11 +91,6 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
     public void block(FavoriteBlock favoriteBlock) throws InternalErrorException, DataNotFoundException, PermissionDeniedException {
 
         long channelId = favoriteBlock.getChannelId();
-
-        List<QueryParam> queryParams = new LinkedList<>();
-        queryParams.add(new QueryParam("partition_id", favoriteBlock.getPartitionId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("user_id", favoriteBlock.getUserId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("channel_id", channelId, QueryConstant.EQUAL));
 
         try {
 
@@ -138,11 +124,6 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
 
         long channelId = favoriteBlock.getChannelId();
 
-        List<QueryParam> queryParams = new LinkedList<>();
-        queryParams.add(new QueryParam("partition_id", favoriteBlock.getPartitionId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("user_id", favoriteBlock.getUserId(), QueryConstant.EQUAL));
-        queryParams.add(new QueryParam("channel_id", channelId, QueryConstant.EQUAL));
-
         try {
 
             long count = channelRepository.countByChannelId(channelId);
@@ -168,6 +149,8 @@ public class FavoriteBlockServiceImpl implements FavoriteBlockService {
             }
         } catch (DataNotFoundException e) {
             throw new DataNotFoundException(e);
+        } catch (PermissionDeniedException e) {
+            throw new PermissionDeniedException(e);
         } catch (Exception e) {
             throw new InternalErrorException(e);
         }

@@ -34,3 +34,7 @@ spring:
 level:
   org.springframework:
     security: DEBUG
+
+#Guide config
+guide:
+  blockPassword: 1111
