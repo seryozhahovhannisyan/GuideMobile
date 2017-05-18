@@ -1,11 +1,14 @@
 package com.connectto.guide.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "v_core_xmltv")
-public class XmlTv {
+public class XmlTv implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +38,11 @@ public class XmlTv {
     @Column(name = "icon")
     private String icon;
     // Escape  in dto
+    @JsonIgnore
     @Column(name = "xmltv_channel_id")
     private Long xmltvChannelId;
 
+    @JsonIgnore
     @Column(name = "xml_type")
     private int xmlType;
 

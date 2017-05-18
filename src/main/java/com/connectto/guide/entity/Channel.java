@@ -1,11 +1,14 @@
 package com.connectto.guide.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "v_iptv_channels")
-public class Channel {
+public class Channel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,17 +72,20 @@ public class Channel {
     private IPTVChannelCountryTimezone countryTimezone;//
 
 
-
+    @JsonIgnore
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    @JsonIgnore
     @Column(name = "deleted")
     private int deleted;
 
+    @JsonIgnore
     @Column(name = "partition_id")
     private int partitionId;
 
+    @JsonIgnore
     @Column(name = "nvr_server_id")
     private int nvrServerId;
 

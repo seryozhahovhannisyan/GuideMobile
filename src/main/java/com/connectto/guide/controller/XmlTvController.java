@@ -35,6 +35,7 @@ public class XmlTvController {
                                  @RequestParam(required = false, name = "periodStart") String periodStart,
                                  @RequestParam(required = false, name = "periodEnd") String periodEnd) {
 
+        logger.info("channelId " + channelId);
         responseDto.cleanMessages();
         User user = ServiceHelper.getAuthenticatedUser();
 
@@ -60,16 +61,16 @@ public class XmlTvController {
             Date stopTime = null;
 
             if (StringHelper.isNotBlank(periodStart)) {
-                startTime =  DataConverter.convertToDate(periodStart);//2012
+                startTime = DataConverter.convertToDate(periodStart);//2012
             }
 
             if (StringHelper.isNotBlank(periodEnd)) {
-                stopTime =  DataConverter.convertToDate(periodEnd);//
+                stopTime = DataConverter.convertToDate(periodEnd);//
             }
 
             params.put("partitionId", partitionId);
 
-            List<XmlTv> xmlTvs = xmlTvService.getBy(Long.parseLong(channelId), startTime , stopTime);
+            List<XmlTv> xmlTvs = xmlTvService.getBy(Long.parseLong(channelId), startTime, stopTime);
             responseDto.addResponse("xmlTvs", xmlTvs);
 
             responseDto.setStatus(ResponseStatus.SUCCESS);

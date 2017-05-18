@@ -9,10 +9,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import org.springframework.cache.annotation.Cacheable;
 
 @Repository
 public interface XmlTvRepository extends JpaRepository<XmlTv, Long> {
 
+//    @Cacheable(value="movieFindCache", key="#xmltvChannelId")
+//    @Cacheable({"movieFindCache", "xmltvChannelId"})
+    @Cacheable(value="movieFindCache" )
     @Modifying
     @Query("SELECT tv FROM XmlTv tv  WHERE tv.xmltvChannelId=:xmltvChannelId AND tv.startTime BETWEEN :startTime AND :stopTime ")
     public List<XmlTv> xmltvChannelId(@Param("xmltvChannelId") Long xmltvChannelId,

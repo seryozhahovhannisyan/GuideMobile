@@ -1,4 +1,6 @@
-# production
+# test
+#https://github.com/brettwooldridge/HikariCP/issues/320
+#
 spring.datasource:
   driverClassName: com.mysql.jdbc.Driver
   url: jdbc:mysql://localhost:3306/ui?useUnicode=yes&characterEncoding=UTF8&autoReconnect=true

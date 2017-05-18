@@ -1,6 +1,9 @@
 package com.connectto.guide.client;
 
+import com.connectto.guide.common.util.CollectionHelper;
 import com.connectto.guide.controller.dto.ResponseDto;
+import com.connectto.guide.entity.Channel;
+import com.connectto.guide.entity.XmlTv;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -10,6 +13,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.connectto.guide.client.ClientConstant.*;
 
@@ -34,11 +38,11 @@ public class Client {
         System.out.println("\nTesting mobileIPTVLanguages API----------");
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<String>(getHeaders());
-        try{
+        try {
             ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_LANGUAGES, HttpMethod.GET, request, ResponseDto.class);
             ResponseDto dto = response.getBody();
             System.out.println(dto);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -92,8 +96,8 @@ public class Client {
     private static void channel(Long channelId) {
         System.out.println("\nTesting channel API----------");
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Object> request = new HttpEntity<Object>(  getHeaders());
-        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL + "/"+channelId, HttpMethod.GET, request, ResponseDto.class);
+        HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL + "/" + channelId, HttpMethod.GET, request, ResponseDto.class);
         ResponseDto dto = response.getBody();
         System.out.println(dto);
     }
@@ -110,7 +114,7 @@ public class Client {
         System.out.println("\nTesting channel API----------");
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
-        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL_COUNT , HttpMethod.GET, request, ResponseDto.class);
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL_COUNT, HttpMethod.GET, request, ResponseDto.class);
         ResponseDto dto = response.getBody();
         System.out.println(dto);
     }
@@ -118,19 +122,27 @@ public class Client {
     private static void channelIdes() {
         System.out.println("\nTesting channel API----------");
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Object> request = new HttpEntity<Object>( getHeaders());
-        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL_IDES , HttpMethod.GET, request, ResponseDto.class);
+        HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_CHANNEL_IDES, HttpMethod.GET, request, ResponseDto.class);
         ResponseDto dto = response.getBody();
+
         System.out.println(dto);
     }
 
     private static void xmlTv(Long channelId) {
         System.out.println("\nTesting URL_XML_TV API----------");
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Object> request = new HttpEntity<Object>( getHeaders());
-        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_XML_TV + "/"+channelId , HttpMethod.GET, request, ResponseDto.class);
+        HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
+        long start = System.currentTimeMillis();
+        ResponseEntity<ResponseDto> response = restTemplate.exchange(REST_SERVICE_URI + URL_XML_TV + "/" + channelId, HttpMethod.GET, request, ResponseDto.class);
         ResponseDto dto = response.getBody();
-        System.out.println(dto);
+
+        long end = System.currentTimeMillis();
+
+        List<XmlTv> xmlTvs = (List<XmlTv>) dto.getResponse().get("xmlTvs");
+        Long dur = end - start;
+        int size = CollectionHelper.isEmpty(xmlTvs) ? 0 : xmlTvs.size();
+        System.out.println("channelId " + channelId + " dur " + dur + " size = " + size + " xmlTvs = " + xmlTvs);
     }
 
     public static synchronized String blockHttpURLConnection() {
@@ -215,9 +227,20 @@ public class Client {
 //        channel(118L);
 //        channelCount();
 //        channelIdes();
-        for(String id : ides.split(",")){
-            xmlTv(Long.parseLong(id));
-        }
+//        for (String id : ides.split(",")) {
+//            Thread myThready = new Thread(
+//                    new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            xmlTv(Long.parseLong(id));
+//                        }
+//                    }
+//            );
+//            myThready.start();
+//        }
+
+        xmlTv(Long.parseLong("224"));
+        xmlTv(Long.parseLong("104"));
 
     }
 }
